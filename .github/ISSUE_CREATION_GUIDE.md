@@ -4,7 +4,238 @@
 
 ---
 
-## How It Works: BA Workflow
+## 🤖 Quick Start for AI Assistants
+
+> **If you're an AI assistant helping a BA create a GitHub issue**, use this prompt:
+
+When a BA says: *"I want to create a GitHub issue with this user story: [user story]"*
+
+**Your Response Template:**
+```
+I'll help you create a complete GitHub issue. Let me check our project context first.
+
+[Read PROJECT_CONTEXT.md]
+
+Based on your user story and our project context, I found:
+
+✓ Project: [from PROJECT_CONTEXT.md]
+✓ Relevant Data Models: [entities mentioned in user story]
+✓ Tech Stack: [from PROJECT_CONTEXT.md]
+✓ [Any other relevant context found]
+
+To create a complete issue, I need some additional details:
+
+1. **Story Type:** Is this Frontend Only, Backend Only, or Full Stack?
+
+2. **[Context-specific questions based on story type]**
+   [Ask 4-6 targeted questions - see "AI Assistant Instructions" section below]
+
+3. **Priority:** Critical / High / Medium / Low?
+
+4. **Design Reference:** Do you have a Figma link, or should we follow existing patterns?
+
+Once you answer these, I'll generate a complete preview for your approval.
+```
+
+**After receiving answers:** Generate preview using format in "AI Assistant Instructions" section below.
+
+---
+
+## 📋 For Business Analysts
+
+> **QUICK START:** New to this process? See [QUICK_START_BA.md](QUICK_START_BA.md) for a simple 3-step guide.
+
+> **FOR AI SETUP:** When starting a new session, have your AI assistant read [AI_ISSUE_CREATOR_PROMPT.md](AI_ISSUE_CREATOR_PROMPT.md) and [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md).
+
+## Two Workflows for Creating Issues
+
+### **Workflow A: Interactive Q&A (Recommended for New BAs)**
+Start with just a user story. AI asks questions, extracts context from PROJECT_CONTEXT.md, and generates a preview for approval.
+
+**Best for:** Quick issue creation, less experienced BAs, when you want AI guidance
+
+### **Workflow B: Prompt-Based (Advanced)**
+Gather all requirements upfront, use detailed prompts, and generate content in one go.
+
+**Best for:** Experienced BAs, complex features requiring deep context, batch issue creation
+
+---
+
+## Workflow A: Interactive Issue Creation
+
+### Step-by-Step Process
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│  1. PROVIDE     │───▶│  2. AI EXTRACTS  │───▶│  3. AI ASKS     │───▶│  4. PREVIEW     │───▶│  5. APPROVE      │
+│  User Story     │    │  & Questions     │    │  Missing Info   │    │  Full Issue     │    │  & Create        │
+└─────────────────┘    └──────────────────┘    └─────────────────┘    └──────────────────┘    └──────────────────┘
+```
+
+### How to Use Interactive Mode
+
+**Step 1: Start with Your User Story**
+
+Simply tell Copilot:
+```
+I want to create a GitHub issue with this user story:
+
+As a [user role],
+I want to [action/goal],
+so that [desired outcome].
+```
+
+**Step 2: AI Extracts Available Context**
+
+Copilot will automatically:
+- Check PROJECT_CONTEXT.md for tech stack, patterns, data models
+- Extract entities and actions from your user story
+- Identify what information is missing
+
+**Step 3: AI Asks Targeted Questions**
+
+Copilot will ask only what it needs. You answer conversationally.
+
+**Step 4: Preview the Complete Issue**
+
+Copilot shows you the full issue content before creating it.
+
+**Step 5: Approve and Create**
+
+Review the preview, request changes if needed, then approve to create the GitHub issue.
+
+### Example: Interactive Flow
+
+**BA Input:**
+```
+I want to create a GitHub issue with the following user story:
+
+As a user, I want to be able to view all campaigns.
+```
+
+**AI Response:**
+```
+I found the following from our project context:
+
+✓ Project: Draper (Media Plan Deliverables Automation)
+✓ Data Model: Campaign entity exists (fields: Client Name, Campaign Name, Project Code, Season, Status)
+✓ User Role: "General User" has access to view campaigns
+
+I need some additional information to create a complete issue:
+
+1. Story Type: Is this Frontend Only, Backend Only, or Full Stack?
+   
+2. What information should be displayed for each campaign?
+   - Just campaign name and status?
+   - Include client, project code, dates?
+   - Show deliverables count?
+
+3. How should campaigns be displayed?
+   - Table/grid view?
+   - List view?
+   - Cards?
+
+4. Filtering/Sorting needed?
+   - Filter by status (Draft, Processing, Completed)?
+   - Sort by date, name, client?
+   - Search by campaign name?
+
+5. Pagination needed?
+   - Show all campaigns or paginate (e.g., 20 per page)?
+
+6. Design reference available?
+   - Figma link?
+   - Or should we follow existing pattern?
+```
+
+**BA Answers:**
+```
+1. Full Stack
+2. Show: Campaign Name, Client, Status, Delivery Date, and a link to view details
+3. Table view
+4. Yes - filter by status and search by campaign name
+5. Yes - 20 per page
+6. No Figma, follow existing table patterns
+```
+
+**AI Preview:**
+```
+Here's the complete GitHub issue I'll create:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PREVIEW: GitHub Issue
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ticket Number: DRAPER-XX
+Story Type: Full Stack (Frontend + Backend)
+Priority: Medium
+
+──────────────────────────────────────────────────────────────────
+User Story
+──────────────────────────────────────────────────────────────────
+As a General User,
+I want to view all campaigns in a filterable table,
+so that I can quickly find and access the campaigns I need to work on.
+
+──────────────────────────────────────────────────────────────────
+Expected Results
+──────────────────────────────────────────────────────────────────
+- Campaigns displayed in paginated table (20 per page)
+- Each row shows: Campaign Name, Client, Status, Delivery Date, View Details link
+- Filter by status dropdown (Draft, Processing, Completed, All)
+- Search by campaign name (real-time filtering)
+- Table loads within 2 seconds
+- Empty state shown when no campaigns match filters
+- Loading state during data fetch
+
+──────────────────────────────────────────────────────────────────
+Acceptance Criteria
+──────────────────────────────────────────────────────────────────
+
+[Full Gherkin scenarios for Frontend and Backend...]
+
+──────────────────────────────────────────────────────────────────
+Technical Context — Frontend
+──────────────────────────────────────────────────────────────────
+
+[Component structure, API calls, state management...]
+
+──────────────────────────────────────────────────────────────────
+Technical Context — Backend
+──────────────────────────────────────────────────────────────────
+
+API Contract:
+GET /api/v1/campaigns
+Query Parameters:
+  - status: "draft" | "processing" | "completed" | "all" (default: "all")
+  - search: string (campaign name filter)
+  - page: number (default: 1)
+  - limit: number (default: 20)
+
+[Full API specification...]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Does this look correct? Reply:
+- "Approve" to create this issue
+- "Change [section]" to modify a specific part
+- "Add [detail]" to include something missing
+```
+
+**BA Approval:**
+```
+Approve
+```
+
+**AI Creates Issue:**
+```
+✓ GitHub issue DRAPER-XX created successfully!
+  View at: https://github.com/your-org/draper/issues/XX
+```
+
+---
+
+## Workflow B: Prompt-Based Issue Creation
 
 ### Step-by-Step Process
 
@@ -838,7 +1069,201 @@ Format all acceptance criteria with:
 
 ---
 
+---
+
+## AI Assistant Instructions: Interactive Issue Creation
+
+> **FOR AI ASSISTANTS (GitHub Copilot, etc.):** When a BA requests to create a GitHub issue with a user story, follow this workflow.
+
+### Step 1: Extract Available Context
+
+Automatically gather information from:
+1. **PROJECT_CONTEXT.md** - Tech stack, data models, patterns, conventions
+2. **User Story** - User role, action, entities mentioned
+3. **Previous conversation** - Any context already discussed
+
+### Step 2: Identify What You Know
+
+Clearly list what information you've extracted, for example:
+```
+I found the following from our project context:
+
+✓ Project: [Project name from PROJECT_CONTEXT.md]
+✓ Tech Stack: [Frontend/Backend details]
+✓ Data Model: [Relevant entities mentioned in user story]
+✓ User Role: [Role from user story or PROJECT_CONTEXT.md]
+✓ Patterns: [API conventions, file structure, etc.]
+```
+
+### Step 3: Ask Targeted Questions
+
+Only ask for information you CANNOT infer. Questions should be:
+- **Specific** - Not "tell me more" but "which of these options?"
+- **Actionable** - Include examples or choices when possible
+- **Categorized** - Group related questions together
+- **Minimal** - 4-6 questions maximum per round
+
+**Required Questions (if not inferrable):**
+
+1. **Story Type**
+   ```
+   Is this Frontend Only, Backend Only, or Full Stack?
+   [If splitting: Also ask about related ticket numbers]
+   ```
+
+2. **UI/UX Details** (for Frontend/Full Stack)
+   ```
+   - What information should be displayed?
+   - How should it be displayed? (table/cards/list/form)
+   - Any filtering, sorting, or search needed?
+   - Pagination required?
+   ```
+
+3. **API Details** (for Backend/Full Stack)
+   ```
+   - What data should the API return?
+   - Any specific validation rules?
+   - What error cases to handle?
+   ```
+
+4. **Design Reference**
+   ```
+   - Figma link available?
+   - Or follow existing patterns from [specify pattern]?
+   ```
+
+5. **Priority**
+   ```
+   - Critical / High / Medium / Low?
+   ```
+
+### Step 4: Generate Preview
+
+After receiving answers, generate a **complete issue preview** with clear formatting:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PREVIEW: GitHub Issue
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ticket Number: [PROJECT-XX]
+Story Type: [Full Stack / Frontend / Backend / Integration]
+Priority: [Critical / High / Medium / Low]
+Related Tickets: [If applicable]
+
+──────────────────────────────────────────────────────────────────
+User Story
+──────────────────────────────────────────────────────────────────
+[Formatted user story]
+
+──────────────────────────────────────────────────────────────────
+Expected Results
+──────────────────────────────────────────────────────────────────
+[Bullet list of behaviors, states, outcomes]
+
+──────────────────────────────────────────────────────────────────
+Design
+──────────────────────────────────────────────────────────────────
+[Figma link or "Follow existing patterns from [pattern]"]
+
+──────────────────────────────────────────────────────────────────
+Acceptance Criteria
+──────────────────────────────────────────────────────────────────
+[Complete Gherkin scenarios organized by category]
+
+**[Feature Group 1]**
+- **Scenario: [Name]**
+  - Given [precondition]
+  - When [action]
+  - Then
+    - [Expected outcome]
+    - [Expected outcome]
+
+**[Validation/Error Handling]**
+- **Scenario: [Name]**
+  - Given [precondition]
+  - When [action]
+  - Then [error behavior]
+
+──────────────────────────────────────────────────────────────────
+Technical Context — Frontend
+──────────────────────────────────────────────────────────────────
+[Component structure, API calls, state, patterns from PROJECT_CONTEXT.md]
+
+──────────────────────────────────────────────────────────────────
+Technical Context — Backend
+──────────────────────────────────────────────────────────────────
+[API contract, database changes, business logic from PROJECT_CONTEXT.md]
+
+──────────────────────────────────────────────────────────────────
+Non-Functional Requirements
+──────────────────────────────────────────────────────────────────
+[Performance, security, accessibility from PROJECT_CONTEXT.md]
+
+──────────────────────────────────────────────────────────────────
+Assumptions & Dependencies
+──────────────────────────────────────────────────────────────────
+[Based on context and answers]
+
+──────────────────────────────────────────────────────────────────
+Out of Scope
+──────────────────────────────────────────────────────────────────
+[Explicitly state what's NOT included]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Step 5: Request Approval
+
+After showing the preview, ask:
+```
+Does this look correct? Reply:
+- "Approve" or "Create" to generate this issue
+- "Change [section]" to modify a specific part
+- "Add [detail]" to include something missing
+- "Remove [detail]" to take something out
+```
+
+### Step 6: Create Issue
+
+When approved:
+- If GitHub MCP is available: Create the issue directly using `mcp_github_github_issue_write`
+- If not: Provide formatted content to copy into the GitHub Issue Form
+
+**Response Format:**
+```
+✓ GitHub issue [TICKET-XX] created successfully!
+  View at: [GitHub URL]
+
+Or
+
+Here's the formatted content to paste into the GitHub Issue Form:
+[Each section formatted for the form fields]
+```
+
+### Best Practices for AI
+
+1. **Use PROJECT_CONTEXT.md** - Reference it for ALL technical details (tech stack, patterns, data models)
+2. **Be Conversational** - Don't sound robotic; ask questions naturally
+3. **Provide Options** - When asking questions, give examples or choices
+4. **Validate Completeness** - Before previewing, ensure all required fields are filled
+5. **Use Templates** - Follow the Gherkin format and section structure exactly
+6. **Link Entities** - When user story mentions data models from PROJECT_CONTEXT.md, reference them
+7. **Infer Smartly** - If something is obvious from context, don't ask
+
+---
+
 ## Tips for BAs
+
+### Using Interactive Mode
+
+1. **Start Simple** — Just provide your user story and let AI guide you
+2. **Be Ready to Answer** — Have rough ideas about UI/UX and priorities
+3. **Review Carefully** — The preview is your chance to catch issues before creation
+4. **Iterate** — Ask for changes to specific sections if needed
+5. **Reference PROJECT_CONTEXT.md** — Review it periodically to know what context AI has access to
+
+### Using Prompt-Based Mode
 
 1. **Be specific with Copilot prompts** — The more context you provide, the better the output
 2. **Review and refine** — Always review AI-generated content for accuracy
@@ -850,17 +1275,27 @@ Format all acceptance criteria with:
 
 ## Quick Reference: BA Checklist
 
-### Before Creating an Issue
+### Interactive Mode Checklist
+
+- [ ] I have a **clear user story** (As a... I want... so that...)
+- [ ] I've reviewed **PROJECT_CONTEXT.md** to understand available context
+- [ ] I'm ready to answer questions about:
+  - [ ] Story type (FE/BE/Full Stack)
+  - [ ] UI/UX requirements (if frontend)
+  - [ ] API behavior (if backend)
+  - [ ] Priority level
+  - [ ] Design reference or pattern to follow
+- [ ] I'll **review the preview** carefully before approving
+- [ ] I'll **link related tickets** if this is a split story
+
+### Prompt-Based Mode Checklist
 
 - [ ] I know the **project** and **feature** to build
 - [ ] I know the **primary user** and their goal
 - [ ] I have the **Figma/design link** (if frontend)
-- [ ] I know the **tech stack** (ask developer if unsure)
+- [ ] I know the **tech stack** (check PROJECT_CONTEXT.md)
 - [ ] I've determined the **story type** (FE/BE/Full Stack/Integration)
 - [ ] I know if this ticket should be **split** (and have related ticket numbers)
-
-### Creating the Issue
-
 - [ ] Copy the appropriate **prompt template** from this guide
 - [ ] Fill in **all bracketed sections** with gathered info
 - [ ] Send to **Copilot Chat** and wait for response
@@ -869,9 +1304,11 @@ Format all acceptance criteria with:
 - [ ] Create issue using the **GitHub Issue Form**
 - [ ] **Link related tickets** if this is a split story
 
-### Quality Check
+### Quality Check (Both Modes)
 
 - [ ] User story is **user-focused** (not system-focused)
-- [ ] Acceptance criteria are **testable**
+- [ ] Acceptance criteria are **testable** and use Gherkin format
 - [ ] Technical context helps devs **start coding immediately**
 - [ ] Out of scope is **clear** to prevent scope creep
+- [ ] All required fields are filled
+- [ ] Links to related tickets are included (if applicable)
