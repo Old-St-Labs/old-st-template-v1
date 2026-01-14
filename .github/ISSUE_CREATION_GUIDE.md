@@ -4,6 +4,111 @@
 
 ---
 
+## How It Works: BA Workflow
+
+### Step-by-Step Process
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐    ┌──────────────────┐
+│  1. GATHER      │───▶│  2. PROMPT       │───▶│  3. GENERATE    │───▶│  4. CREATE       │
+│  Requirements   │    │  Feed to Copilot │    │  Copilot output │    │  GitHub Issue    │
+└─────────────────┘    └──────────────────┘    └─────────────────┘    └──────────────────┘
+```
+
+### Step 1: Gather Requirements (What BA Needs)
+
+Before using Copilot, collect this information:
+
+| Required Input | Description | Example |
+|----------------|-------------|---------|
+| **Project** | Project name and brief description | "E-commerce platform for handmade goods" |
+| **Feature** | What functionality to build | "User login with email/password" |
+| **User** | Who is the primary user | "Registered customer" |
+| **Story Type** | Frontend / Backend / Full Stack / Integration | "Full Stack" |
+| **Tech Stack** | Languages, frameworks, database | "React, TypeScript, Node.js, PostgreSQL" |
+
+| Optional Input | Description | Example |
+|----------------|-------------|---------|
+| **Design** | Figma or design tool link | "https://figma.com/file/abc123/login" |
+| **Related Tickets** | If splitting FE/BE | "Backend: SMP-02" |
+| **Existing Code** | Relevant file paths or patterns | "Follow src/components/forms pattern" |
+
+### Step 2: Feed the Prompt to Copilot
+
+1. **Open GitHub Copilot Chat** in VS Code, GitHub.com, or IDE
+2. **Copy a prompt template** from below (based on story type)
+3. **Fill in the bracketed sections** with your gathered info
+4. **Send to Copilot** and wait for generated content
+
+### Step 3: Review Generated Content
+
+- Read through all sections
+- Verify acceptance criteria make sense
+- Add/remove scenarios as needed
+- Check technical context accuracy
+
+### Step 4: Create the GitHub Issue
+
+**Option A: Use the Issue Form (Recommended)**
+1. Go to repository → Issues → New Issue
+2. Select "📋 User Story" template
+3. Copy/paste generated content into matching fields
+4. Submit
+
+**Option B: Create via Copilot Chat (if MCP enabled)**
+- Copilot can create the issue directly using GitHub MCP tools
+
+---
+
+## Concrete Example: BA Creating an Issue
+
+Here's exactly what a BA does to create the "User Login" issue:
+
+### 1️⃣ BA Gathers Info (from stakeholders, design team, tech lead)
+
+```
+Project: Sample Marketplace Platform (SMP)
+Feature: User login with email and password
+User: Registered customer
+Story Type: Full Stack
+Design: https://figma.com/file/xyz789/login-page
+Tech Stack: React, TypeScript, Node.js, Express, PostgreSQL
+```
+
+### 2️⃣ BA Opens Copilot Chat and Pastes This Prompt
+
+```
+Create a FULL STACK GitHub issue following our user story guidelines:
+
+**Project:** Sample Marketplace Platform - e-commerce for handmade goods
+**Feature:** User login with email and password authentication
+**User:** Registered customer
+**Design Reference:** https://figma.com/file/xyz789/login-page
+**Tech Stack:** React, TypeScript, Node.js, Express, PostgreSQL
+
+Generate the issue with:
+1. User Story (As a... I want... so that...)
+2. Expected Results (what happens on success and failure)
+3. Acceptance Criteria in Gherkin format covering:
+   - FRONTEND: Login form display, validation, loading/error states
+   - BACKEND: POST /auth/login endpoint, validation, JWT response, error handling
+4. Technical Context for both Frontend and Backend
+5. Non-Functional Requirements (performance, security)
+6. Out of Scope
+```
+
+### 3️⃣ Copilot Generates Complete Issue Content
+
+Copilot responds with structured content for each field (User Story, Expected Results, Acceptance Criteria, etc.)
+
+### 4️⃣ BA Creates GitHub Issue
+
+Goes to: **https://github.com/Old-St-Labs/old-st-template-v1/issues/new/choose**
+
+Selects "📋 User Story" template, fills in each field from Copilot's output, and submits.
+
+---
+
 ## Quick Start: Copilot Prompts by Story Type
 
 ### 🎨 Frontend Story Prompt
@@ -740,3 +845,33 @@ Format all acceptance criteria with:
 3. **Include examples** — When describing expected behavior, concrete examples help
 4. **Think like a developer** — Consider what information they need to implement without asking questions
 5. **Use the form** — The GitHub Issue Form enforces structure; fill all sections thoughtfully
+
+---
+
+## Quick Reference: BA Checklist
+
+### Before Creating an Issue
+
+- [ ] I know the **project** and **feature** to build
+- [ ] I know the **primary user** and their goal
+- [ ] I have the **Figma/design link** (if frontend)
+- [ ] I know the **tech stack** (ask developer if unsure)
+- [ ] I've determined the **story type** (FE/BE/Full Stack/Integration)
+- [ ] I know if this ticket should be **split** (and have related ticket numbers)
+
+### Creating the Issue
+
+- [ ] Copy the appropriate **prompt template** from this guide
+- [ ] Fill in **all bracketed sections** with gathered info
+- [ ] Send to **Copilot Chat** and wait for response
+- [ ] **Review** the generated content for accuracy
+- [ ] **Adjust** acceptance criteria if needed
+- [ ] Create issue using the **GitHub Issue Form**
+- [ ] **Link related tickets** if this is a split story
+
+### Quality Check
+
+- [ ] User story is **user-focused** (not system-focused)
+- [ ] Acceptance criteria are **testable**
+- [ ] Technical context helps devs **start coding immediately**
+- [ ] Out of scope is **clear** to prevent scope creep
