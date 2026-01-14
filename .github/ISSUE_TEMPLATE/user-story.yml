@@ -1,0 +1,281 @@
+name: "📋 User Story"
+description: "Create a user story for feature development (AI-assisted coding optimized)"
+title: "[STORY] "
+labels: ["user-story", "needs-refinement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📋 User Story Submission
+        Complete all required fields. This template is optimized for AI-assisted development.
+        
+        **Note:** For complex features, you may create separate Frontend/Backend tickets and link them.
+
+  - type: input
+    id: ticket-number
+    attributes:
+      label: "Ticket Number"
+      description: "Format: ABC-01 (three-letter project prefix + hyphen + number)"
+      placeholder: "e.g., SMP-01"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: story-type
+    attributes:
+      label: "Story Type"
+      description: "Select the primary scope of this story"
+      options:
+        - "Full Stack (Frontend + Backend)"
+        - "Frontend Only"
+        - "Backend Only"
+        - "Integration / API Contract"
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - "Critical"
+        - "High"
+        - "Medium"
+        - "Low"
+      default: 2
+    validations:
+      required: true
+
+  - type: input
+    id: related-tickets
+    attributes:
+      label: "Related Tickets"
+      description: "Link related Frontend/Backend/Integration tickets if this story is split"
+      placeholder: "e.g., Frontend: SMP-02, Backend: SMP-03"
+    validations:
+      required: false
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: "User Story"
+      description: "Describe what the user wants to accomplish"
+      value: |
+        As a ,
+        I want to ,
+        so that .
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-results
+    attributes:
+      label: "Expected Results"
+      description: "Describe the detailed expected output of this story"
+      placeholder: |
+        - User behaviors and workflows
+        - System responses
+        - Changes to data
+        - Error states
+        - Edge cases
+    validations:
+      required: true
+
+  - type: input
+    id: design-link
+    attributes:
+      label: "Design"
+      description: "Figma or design tool link (primarily for Frontend/Full Stack)"
+      placeholder: "https://figma.com/file/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Acceptance Criteria"
+      description: "Write scenarios in Gherkin format. See guidance below based on story type."
+      value: |
+        <!-- 
+        FRONTEND stories: Focus on UI elements, states, interactions, responsive behavior
+        BACKEND stories: Focus on API endpoints, request/response, data validation, error codes
+        INTEGRATION stories: Focus on end-to-end flow, contract verification, system interactions
+        -->
+
+        **[Feature/Endpoint Group Name]**
+        - **Scenario: [Scenario Name]**
+          - Given [precondition]
+          - When [action]
+          - Then
+            - [Expected outcome 1]
+            - [Expected outcome 2]
+
+        **[Validation/Error Handling]**
+        - **Scenario: [Validation Scenario]**
+          - Given [precondition]
+          - When [invalid action]
+          - Then [error handling behavior]
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-context-frontend
+    attributes:
+      label: "Technical Context — Frontend"
+      description: "Fill this section for Frontend or Full Stack stories"
+      placeholder: |
+        **Relevant Files/Components:**
+        - src/pages/...
+        - src/components/...
+        
+        **Routes:**
+        - /path/to/page
+        
+        **State Management:**
+        - Redux slice / Context / Local state
+        
+        **UI Components to Reuse:**
+        - Button, Modal, Form components from design system
+        
+        **Responsive Breakpoints:**
+        - Mobile: 320px, Tablet: 768px, Desktop: 1024px+
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-context-backend
+    attributes:
+      label: "Technical Context — Backend"
+      description: "Fill this section for Backend or Full Stack stories"
+      placeholder: |
+        **Relevant Files/Services:**
+        - src/services/...
+        - src/controllers/...
+        - src/models/...
+        
+        **API Contract:**
+        Method: POST /api/v1/endpoint
+        Headers: Authorization: Bearer <token>
+        Request Body:
+        {
+          "field1": "string",
+          "field2": "number"
+        }
+        Response (200):
+        {
+          "success": true,
+          "data": { ... }
+        }
+        Response (400): { "error": "VALIDATION_ERROR" }
+        Response (401): { "error": "UNAUTHORIZED" }
+        
+        **Database Changes:**
+        - Table: users
+        - New columns / indexes
+        
+        **Business Logic:**
+        - Validation rules
+        - Calculations
+        - External service calls
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-context-integration
+    attributes:
+      label: "Technical Context — Integration"
+      description: "Fill this section for Integration stories or when connecting FE/BE"
+      placeholder: |
+        **Integration Points:**
+        - Frontend component → API endpoint mapping
+        - External service integrations
+        
+        **Contract Definition:**
+        - OpenAPI spec link or inline contract
+        - Request/Response examples with actual data
+        
+        **Authentication/Authorization:**
+        - Auth flow description
+        - Required permissions/roles
+        
+        **Error Handling Contract:**
+        - Error code mapping between FE and BE
+        - Retry logic requirements
+        
+        **Testing Requirements:**
+        - Contract tests needed
+        - E2E test scenarios
+    validations:
+      required: false
+
+  - type: textarea
+    id: nfr
+    attributes:
+      label: "Non-Functional Requirements"
+      description: "Performance, security, accessibility, browser/device support"
+      placeholder: |
+        **Performance:**
+        - Frontend: Page load < 2s, Time to Interactive < 3s
+        - Backend: API response < 500ms, Database query < 100ms
+        
+        **Security:**
+        - Input sanitization
+        - Authentication: JWT / OAuth
+        - Authorization: Role-based access
+        
+        **Accessibility:**
+        - WCAG 2.1 AA compliance
+        - Keyboard navigation
+        - Screen reader support
+        
+        **Browser/Device Support:**
+        - Chrome, Firefox, Safari, Edge (latest 2 versions)
+        - iOS Safari, Android Chrome
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "Assumptions & Dependencies"
+      description: "External dependencies, team dependencies, assumptions"
+      placeholder: |
+        - Requires API endpoint from Backend team (ticket: XXX-00)
+        - Depends on authentication module
+        - Assumes design tokens are available
+        - Third-party service: Stripe, SendGrid, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: "Out of Scope"
+      description: "Explicitly state what this story does NOT include"
+      placeholder: |
+        - Mobile app implementation
+        - Admin panel functionality  
+        - Offline support
+        - Performance optimization (separate ticket)
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: definition-of-done
+    attributes:
+      label: "Definition of Done"
+      description: "Check items as completed during development"
+      options:
+        - label: "All acceptance criteria met"
+        - label: "Code reviewed and approved"
+        - label: "Unit tests written and passing"
+        - label: "Integration/E2E tests passing (if applicable)"
+        - label: "API documentation updated (Backend)"
+        - label: "Storybook updated (Frontend components)"
+        - label: "QA validated"
+        - label: "Functionality matches designs (Frontend)"
+        - label: "Documentation updated"
+        - label: "Analytics events implemented (if applicable)"
+        - label: "Accessibility requirements met (Frontend)"
+        - label: "Merged to main branch"
