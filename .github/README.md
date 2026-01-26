@@ -13,12 +13,23 @@ This directory contains templates and guides for creating well-structured GitHub
 | **[ISSUE_CREATION_GUIDE.md](ISSUE_CREATION_GUIDE.md)** | Complete reference guide with examples and prompts | Deep dive into workflows and best practices |
 | **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** | Project-specific context (tech stack, data models, patterns) | Reference when creating issues; AI reads this automatically |
 
+**🆕 Key Features:**
+- ✅ **Automated Creation**: Issues created directly on GitHub (no manual copy/paste)
+- ✅ **Batch CSV Mode**: Create 10-20+ issues from a CSV file in minutes
+- ✅ **Flexible Prefixes**: Use any ticket prefix (`DR-01`, `DRAPER-15`, `AUTH-03`)
+- ✅ **Auto-Generation**: Labels, dependencies, technical context, acceptance criteria
+- ✅ **Smart Detection**: Story type auto-detected from hour estimates in CSV mode
+
 ### For AI Assistants
 
 | File | Purpose | When to Use |
 |------|---------|-------------|
-| **[AI_ISSUE_CREATOR_PROMPT.md](AI_ISSUE_CREATOR_PROMPT.md)** | System instructions for interactive issue creation | AI reads this at session start |
+| **[AI_ISSUE_CREATOR_PROMPT.md](AI_ISSUE_CREATOR_PROMPT.md)** | System instructions for issue creation (Single + Batch modes) | AI reads this at session start |
 | **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** | Project knowledge base | AI references this for all technical details |
+
+**Two Modes:**
+1. **Single Story Mode** - Interactive Q&A (4-6 questions) for 1 issue
+2. **Batch CSV Mode** - Minimal Q&A (2-4 questions) for bulk creation
 
 ### Issue Templates (GitHub Forms)
 
@@ -31,14 +42,18 @@ This directory contains templates and guides for creating well-structured GitHub
 
 ## 🚀 Quick Start for BAs
 
-### Option 1: Interactive Mode (Recommended)
+### Option 1: Single Story Mode (Interactive - Best for 1-3 issues)
 
 1. **Setup** (once per session):
    ```
    Open GitHub Copilot Chat and paste:
    
-   "Please read .github/AI_ISSUE_CREATOR_PROMPT.md and .github/PROJECT_CONTEXT.md, 
-   then tell me you're ready to help create GitHub issues."
+   "Please read .github/AI_ISSUE_CREATOR_PROMPT.md and .github/PROJECT_CONTEXT.md.
+   
+   My GitHub repository is: [owner/repo]
+   My ticket prefix is: [PREFIX] (e.g., DR, DRAPER, AUTH)
+   
+   Then tell me you're ready to help create GitHub issues."
    ```
 
 2. **Create Issues** (every time):
@@ -50,7 +65,42 @@ This directory contains templates and guides for creating well-structured GitHub
    so that [outcome].
    ```
 
-3. **Answer Questions** - AI asks 4-6 targeted questions
+3. **Answer 4-6 questions** → **Review preview** → **Approve**
+
+   ✅ Issue is **automatically created on GitHub**
+
+---
+
+### Option 2: Batch CSV Mode (Bulk - Best for 10+ issues)
+
+1. **Create CSV file** with user stories:
+   ```csv
+   Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
+   Authentication,"As a user, I want Google SSO",High,4-6,2,AWS Cognito
+   Campaign,"As a user, I want to view campaigns",Medium,0,4,Zustand
+   ```
+
+2. **Setup and provide CSV**:
+   ```
+   "Please read .github/AI_ISSUE_CREATOR_PROMPT.md in BATCH CSV MODE.
+   
+   Repository: [owner/repo]
+   Prefix: [PREFIX]
+   
+   [paste CSV data]"
+   ```
+
+3. **Answer 2-4 global questions** → **Review summary** → **Approve all**
+
+   ✅ All issues **automatically created** with sequential numbering
+
+**Batch Mode Auto-Generates:**
+- Story types (from hour estimates)
+- Ticket numbers (`PREFIX-01`, `PREFIX-02`...)
+- Labels (`user-story`, `epic-name`, `priority-level`, `story-type`)
+- Dependencies (inferred from epic order)
+- Technical context (from PROJECT_CONTEXT.md + Notes column)
+- Acceptance criteria (Gherkin scenarios)
 
 4. **Review & Approve** - AI shows complete preview, you approve or request changes
 
