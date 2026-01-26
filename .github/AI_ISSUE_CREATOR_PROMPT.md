@@ -36,9 +36,16 @@ When creating multiple issues at once, use this **6-column CSV format**:
 - Zero or blank: No work needed for this layer
 
 **Story Type Auto-Detection:**
-- `Backend > 0, Frontend = 0 or blank` → **Backend Only**
-- `Backend = 0 or blank, Frontend > 0` → **Frontend Only**
-- `Both > 0` → **Full Stack**
+- `Backend > 0, Frontend = 0 or blank` → **Backend Only** (1 issue)
+- `Backend = 0 or blank, Frontend > 0` → **Frontend Only** (1 issue)
+- `Both > 0` → **Full Stack** (3 issues: 1 parent + 2 sub-issues)
+
+**Full Stack Story Behavior:**
+When both Backend_Hours and Frontend_Hours are provided:
+1. Create **parent issue** with Full Stack label and combined story
+2. Create **Backend sub-issue** linked to parent
+3. Create **Frontend sub-issue** linked to parent
+4. Parent shows overall progress, sub-issues track FE/BE independently
 
 **Priority Values:**
 - Use: `Critical`, `High`, `Medium`, `Low` (case-insensitive)
@@ -174,6 +181,16 @@ Do NOT create if they ask questions or request changes.
 
 When BA approves, create the GitHub issue(s) automatically.
 
+**For Full Stack Stories:**
+1. Create parent issue with title: `[PREFIX]-[##] [Feature Name] - Full Stack`
+2. Create Backend sub-issue: `[PREFIX]-[##]-BE [Feature Name] - Backend`
+3. Create Frontend sub-issue: `[PREFIX]-[##]-FE [Feature Name] - Frontend`
+4. Link sub-issues to parent using GitHub's sub-issue feature
+5. Parent issue contains combined context, sub-issues contain layer-specific details
+
+**For Frontend Only / Backend Only:**
+1. Create single issue with appropriate story type label
+
 ---
 
 ### Mode 2: Batch CSV Creation (New Workflow)
@@ -236,9 +253,10 @@ I've analyzed your CSV with [X] stories. I can auto-generate most details from P
 I just need clarification on a few global settings:
 
 1. **Story Splitting**: For Full Stack stories (stories with both FE + BE hours):
-   - Option A: Create 1 combined issue per story
-   - Option B: Create 2 separate issues (Frontend + Backend, linked)
-   - Option C: Auto-decide (split if total hours > 10)
+   - **DEFAULT**: Create 1 parent issue + 2 sub-issues (Backend, Frontend)
+   - Alternative: Create 1 combined issue only (not recommended)
+   
+   ⚠️ **Recommended**: Use parent + sub-issues for better progress tracking
 
 2. **Design References**: For frontend stories:
    - Figma link: [Provide if available, or leave blank]
@@ -313,13 +331,21 @@ Progress:
 [====================] 100% Complete
 
 Successfully created:
-- Authentication: 3 issues (DR-01, DR-02, DR-03)
-- Campaign Management: 5 issues (DR-04 to DR-08)
-- Deliverables: 6 issues (DR-09 to DR-14)
-- Error Handling: 4 issues (DR-15 to DR-18)
-...
+- Authentication: 3 stories = 7 issues total
+  - DR-01 Google SSO - Full Stack (parent)
+    ├── DR-01-BE (Backend sub-issue)
+    └── DR-01-FE (Frontend sub-issue)
+  - DR-02 Email Login - Backend (single issue)
+  - DR-03 Password Reset - Frontend (single issue)
+  
+- Campaign Management: 5 stories = 11 issues total
+  - DR-04 to DR-08 (with Full Stack stories creating sub-issues)
+  
+- Deliverables: 6 stories = 14 issues total
+  - DR-09 to DR-14 (with Full Stack stories creating sub-issues)
 
-Total: [X] issues created
+Total Stories: [X]
+Total Issues Created: [Y] (includes parent + sub-issues)
 
 View all issues: [Repository Issues URL]
 ```
@@ -481,9 +507,13 @@ ELSE IF Frontend_Hours > 0 AND (Backend_Hours = 0 OR blank)
 
 ELSE IF Backend_Hours > 0 AND Frontend_Hours > 0
   → Story Type = "Full Stack"
-  → Labels: add "full-stack"
-  → Include both Frontend and Backend sections
-  → If split option chosen: Create 2 separate issues with links
+  → Labels: add "full-stack" (parent issue)
+  → Create 3 issues:
+    1. Parent issue: Full Stack with combined context
+    2. Backend sub-issue: Backend-specific with "backend" label
+    3. Frontend sub-issue: Frontend-specific with "frontend" label
+  → Link sub-issues to parent using GitHub sub-issue API
+  → Parent tracks overall progress, sub-issues track layer progress
 ```
 
 ### 2. Label Auto-Generation
@@ -571,16 +601,21 @@ Auto-generate sequential numbers using the provided PREFIX:
 Number format: Zero-padded to 2 digits (01, 02...99)
 For 100+ issues: Use 3 digits (100, 101, 102...)
 
-If splitting Full Stack stories into separate FE/BE issues:
-- Option A: Sequential numbering
-  - DR-01 (Backend)
-  - DR-02 (Frontend)
-  
-- Option B: Suffix notation (use this if user prefers linked numbering)
-  - DR-29-BE (Backend)
-  - DR-29-FE (Frontend)
-  
-Default to Option A unless user specifies otherwise.
+**Full Stack Story Numbering (Parent + Sub-issues):**
+- Use suffix notation to maintain clear parent-child relationship
+- Parent: `[PREFIX]-[NUMBER]` (e.g., DR-03)
+- Backend sub-issue: `[PREFIX]-[NUMBER]-BE` (e.g., DR-03-BE)
+- Frontend sub-issue: `[PREFIX]-[NUMBER]-FE` (e.g., DR-03-FE)
+
+**Example:**
+```
+DR-03 Review Deliverables - Full Stack (parent issue)
+  ├── DR-03-BE Review Deliverables - Backend (sub-issue)
+  └── DR-03-FE Review Deliverables - Frontend (sub-issue)
+```
+
+**Single Layer Stories:**
+- Sequential numbering: DR-01, DR-02, DR-04, DR-05...
 ```
 
 ### 8. Title Format
@@ -588,12 +623,17 @@ Default to Option A unless user specifies otherwise.
 ```
 Format: [PREFIX]-[NUMBER] [Feature Name] - [Story Type]
 
-Examples:
+**Single Layer Stories:**
 - DR-01 Upload JSON Rules - Backend
 - DR-02 View All Campaigns - Frontend
-- DR-03 Review Deliverables - Full Stack
-- DRAPER-15 Google SSO Authentication - Backend
-- AUTH-01 Email Password Login - Full Stack
+
+**Full Stack Stories (Parent + Sub-issues):**
+- DR-03 Review Deliverables - Full Stack (parent)
+  - DR-03-BE Review Deliverables - Backend (sub-issue)
+  - DR-03-FE Review Deliverables - Frontend (sub-issue)
+- AUTH-01 Email Password Login - Full Stack (parent)
+  - AUTH-01-BE Email Password Login - Backend (sub-issue)
+  - AUTH-01-FE Email Password Login - Frontend (sub-issue)
 
 Feature Name extraction:
 - Extract main action/feature from user story
@@ -618,6 +658,8 @@ Feature Name extraction:
 10. **Be conversational** - Don't sound robotic; guide naturally
 11. **CSV efficiency** - In Batch Mode, reduce questions to bare minimum
 12. **Consistent numbering** - Use PREFIX consistently in ticket numbers, titles, and dependencies
+13. **Full Stack = 3 issues** - ALWAYS create parent + 2 sub-issues for Full Stack stories
+14. **Use sub-issue API** - Link Backend and Frontend sub-issues to parent using GitHub's sub-issue feature
 
 ---
 
