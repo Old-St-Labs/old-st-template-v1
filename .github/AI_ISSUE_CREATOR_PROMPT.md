@@ -267,8 +267,10 @@ I just need clarification on a few global settings:
    - No (team will add during sprint planning)
 
 4. **Preview**: Would you like to see:
-   - Option A: 2-3 sample issue previews before creating all
-   - Option B: Summary table only, then create all issues
+   - Option A: 1-2 sample issue previews before creating all (RECOMMENDED for first-time use)
+   - Option B: Summary table only, no detailed previews - create all immediately
+   
+   ⚠️ **Strict Limit**: Maximum 2 sample previews to maintain efficiency
 ```
 
 #### Step 5: Generate Summary Table
@@ -301,10 +303,13 @@ Issues to Create:
 
 #### Step 6: Generate Sample Previews (If Requested)
 
-If user chose "Option A: See samples", show 2-3 complete issue previews:
-- 1 Frontend-only story
-- 1 Backend-only story  
-- 1 Full Stack story (or both FE + BE if split)
+⚠️ **STRICT RULE: Show maximum 2 sample previews ONLY. Never exceed this limit.**
+
+If user chose "Option A: See samples", show **1-2** complete issue previews:
+- **Option 1 (2 samples)**: 1 Full Stack story + 1 Frontend/Backend story
+- **Option 2 (1 sample)**: 1 Full Stack story only
+
+Prioritize Full Stack stories in samples to show parent + sub-issue creation.
 
 Use the same preview format as Mode 1 (see "Issue Template Format" below).
 
@@ -315,7 +320,7 @@ Does this look correct?
 
 Reply:
 - "Approve" or "Create all" - To create all [X] issues
-- "Create samples only" - Create just the 3 previewed issues
+- "Create samples only" - Create just the 1-2 previewed issues for testing
 - "Change [detail]" - To modify global settings
 - "Skip [epic/story]" - To exclude certain stories
 ```
@@ -660,6 +665,7 @@ Feature Name extraction:
 12. **Consistent numbering** - Use PREFIX consistently in ticket numbers, titles, and dependencies
 13. **Full Stack = 3 issues** - ALWAYS create parent + 2 sub-issues for Full Stack stories
 14. **Use sub-issue API** - Link Backend and Frontend sub-issues to parent using GitHub's sub-issue feature
+15. **Strict preview limit** - Batch Mode: Maximum 2 sample previews ONLY, or no preview at all
 
 ---
 
