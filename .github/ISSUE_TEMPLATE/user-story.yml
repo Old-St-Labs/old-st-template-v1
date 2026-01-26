@@ -1,6 +1,6 @@
 name: "📋 User Story"
 description: "Create a user story for feature development (AI-assisted coding optimized)"
-title: "[STORY] "
+title: "[PREFIX]-[##] "
 labels: ["user-story", "needs-refinement"]
 body:
   - type: markdown
@@ -9,14 +9,17 @@ body:
         ## 📋 User Story Submission
         Complete all required fields. This template is optimized for AI-assisted development.
         
+        **Ticket Format:** Use `PREFIX-##` format (e.g., DR-01, DRAPER-15)
         **Note:** For complex features, you may create separate Frontend/Backend tickets and link them.
+        
+        💡 **AI-Assisted Creation:** For batch issue creation, see `.github/AI_ISSUE_CREATOR_PROMPT.md`
 
   - type: input
     id: ticket-number
     attributes:
       label: "Ticket Number"
-      description: "Format: ABC-01 (three-letter project prefix + hyphen + number)"
-      placeholder: "e.g., SMP-01"
+      description: "Format: PREFIX-## (2-10 char project prefix + hyphen + zero-padded number)"
+      placeholder: "e.g., DR-01, DRAPER-15, AUTH-03"
     validations:
       required: true
 
@@ -48,11 +51,20 @@ body:
       required: true
 
   - type: input
+    id: estimated-effort
+    attributes:
+      label: "Estimated Effort"
+      description: "Time estimate (e.g., '4 hours', '2-3 hours (Backend), 4 hours (Frontend)')"
+      placeholder: "e.g., 4 hours, 2-3 hours (Backend), 12 hours (Frontend)"
+    validations:
+      required: false
+
+  - type: input
     id: related-tickets
     attributes:
       label: "Related Tickets"
       description: "Link related Frontend/Backend/Integration tickets if this story is split"
-      placeholder: "e.g., Frontend: SMP-02, Backend: SMP-03"
+      placeholder: "e.g., Frontend: DR-02, Backend: DR-03, Depends on: DR-01"
     validations:
       required: false
 
@@ -62,9 +74,9 @@ body:
       label: "User Story"
       description: "Describe what the user wants to accomplish"
       value: |
-        As a ,
-        I want to ,
-        so that .
+        As a [user role],
+        I want to [action],
+        so that [outcome].
     validations:
       required: true
 
@@ -77,6 +89,7 @@ body:
         - User behaviors and workflows
         - System responses
         - Changes to data
+        - UI states (loading, empty, error)
         - Error states
         - Edge cases
     validations:
@@ -87,7 +100,7 @@ body:
     attributes:
       label: "Design"
       description: "Figma or design tool link (primarily for Frontend/Full Stack)"
-      placeholder: "https://figma.com/file/..."
+      placeholder: "https://figma.com/file/... or 'Follow existing UI patterns'"
     validations:
       required: false
 
@@ -116,6 +129,18 @@ body:
           - Given [precondition]
           - When [invalid action]
           - Then [error handling behavior]
+
+        **[Loading States]** (Frontend only)
+        - **Scenario: Loading data**
+          - Given [data is being fetched]
+          - When [user navigates to page]
+          - Then [loading indicator displayed]
+
+        **[Empty States]** (Frontend only)
+        - **Scenario: No data available**
+          - Given [no data exists]
+          - When [user views page]
+          - Then [empty state message shown]
     validations:
       required: true
 
@@ -133,10 +158,18 @@ body:
         - /path/to/page
         
         **State Management:**
-        - Redux slice / Context / Local state
+        - Zustand store / Redux slice / Context / Local state
+        - Store structure: { ... }
         
         **UI Components to Reuse:**
-        - Button, Modal, Form components from design system
+        - Button, Modal, Form, Table components from design system
+        
+        **API Endpoints to Call:**
+        - GET /api/v1/endpoint
+        - POST /api/v1/endpoint
+        
+        **UI Library/Framework:**
+        - TanStack Table / AG Grid / Custom table
         
         **Responsive Breakpoints:**
         - Mobile: 320px, Tablet: 768px, Desktop: 1024px+
@@ -150,33 +183,60 @@ body:
       description: "Fill this section for Backend or Full Stack stories"
       placeholder: |
         **Relevant Files/Services:**
+        - lambdas/function-name/
         - src/services/...
         - src/controllers/...
         - src/models/...
         
         **API Contract:**
-        Method: POST /api/v1/endpoint
-        Headers: Authorization: Bearer <token>
+        ```
+        [METHOD] /api/v1/[endpoint]
+        Headers:
+          Authorization: Bearer <token>
+          Content-Type: application/json
+        
+        Query/Path Parameters:
+          param: type - description
+        
         Request Body:
         {
           "field1": "string",
           "field2": "number"
         }
+        
         Response (200):
         {
           "success": true,
           "data": { ... }
         }
-        Response (400): { "error": "VALIDATION_ERROR" }
-        Response (401): { "error": "UNAUTHORIZED" }
+        
+        Response (400):
+        {
+          "error": "VALIDATION_ERROR",
+          "message": "Human-readable message",
+          "details": [ ... ]
+        }
+        
+        Response (401):
+        { "error": "UNAUTHORIZED" }
+        
+        Response (404):
+        { "error": "NOT_FOUND" }
+        
+        Response (500):
+        { "error": "SERVER_ERROR" }
+        ```
         
         **Database Changes:**
-        - Table: users
-        - New columns / indexes
+        - Table/Collection: table_name
+        - PK: ENTITY#id
+        - SK: metadata
+        - New fields/indexes
         
         **Business Logic:**
         - Validation rules
-        - Calculations
+        - Data transformations
+        - Business rules (e.g., "Skip US market", "Meta 9:16 split")
         - External service calls
     validations:
       required: false
@@ -189,7 +249,7 @@ body:
       placeholder: |
         **Integration Points:**
         - Frontend component → API endpoint mapping
-        - External service integrations
+        - External service integrations (Google Sheets, Monday.com, etc.)
         
         **Contract Definition:**
         - OpenAPI spec link or inline contract
@@ -198,14 +258,17 @@ body:
         **Authentication/Authorization:**
         - Auth flow description
         - Required permissions/roles
+        - Token handling
         
         **Error Handling Contract:**
         - Error code mapping between FE and BE
         - Retry logic requirements
+        - User-facing error messages
         
         **Testing Requirements:**
         - Contract tests needed
         - E2E test scenarios
+        - Integration test coverage
     validations:
       required: false
 
@@ -217,21 +280,29 @@ body:
       placeholder: |
         **Performance:**
         - Frontend: Page load < 2s, Time to Interactive < 3s
-        - Backend: API response < 500ms, Database query < 100ms
+        - Backend: API response < 500ms, Lambda execution < 60s
+        - Database query < 100ms
         
         **Security:**
-        - Input sanitization
-        - Authentication: JWT / OAuth
-        - Authorization: Role-based access
+        - Input sanitization and validation
+        - Authentication: JWT / OAuth via AWS Cognito
+        - Authorization: Role-based access (Admin vs General User)
+        - File upload validation (.xlsx only, max size)
         
         **Accessibility:**
-        - WCAG 2.1 AA compliance
+        - WCAG 2.1 AA compliance (if applicable)
         - Keyboard navigation
         - Screen reader support
+        - Color contrast requirements
         
         **Browser/Device Support:**
         - Chrome, Firefox, Safari, Edge (latest 2 versions)
-        - iOS Safari, Android Chrome
+        - Desktop-first / Mobile responsive
+        
+        **Logging & Monitoring:**
+        - CloudWatch logs for all errors
+        - Activity log for audit trail
+        - Error tracking with row numbers (for data processing)
     validations:
       required: false
 
@@ -241,10 +312,17 @@ body:
       label: "Assumptions & Dependencies"
       description: "External dependencies, team dependencies, assumptions"
       placeholder: |
-        - Requires API endpoint from Backend team (ticket: XXX-00)
-        - Depends on authentication module
-        - Assumes design tokens are available
-        - Third-party service: Stripe, SendGrid, etc.
+        **Dependencies:**
+        - Depends on: [TICKET-NUMBER] ([Description])
+        - Requires API endpoint from Backend (ticket: XXX-00)
+        - Requires authentication module (DR-01)
+        - Third-party service: Stripe, SendGrid, Google Sheets, Monday.com
+        
+        **Assumptions:**
+        - User is authenticated before accessing feature
+        - Data already exists in database
+        - Design tokens/system available
+        - Maximum [X] items per dataset (MVP scope)
     validations:
       required: false
 
@@ -257,7 +335,12 @@ body:
         - Mobile app implementation
         - Admin panel functionality  
         - Offline support
-        - Performance optimization (separate ticket)
+        - Real-time updates (manual refresh only)
+        - Pagination (handle <100 items only)
+        - Advanced filtering/sorting
+        - Batch operations
+        - Delete functionality
+        - Version history beyond audit log
     validations:
       required: false
 
@@ -272,10 +355,11 @@ body:
         - label: "Unit tests written and passing"
         - label: "Integration/E2E tests passing (if applicable)"
         - label: "API documentation updated (Backend)"
-        - label: "Storybook updated (Frontend components)"
+        - label: "Storybook/component docs updated (Frontend)"
         - label: "QA validated"
         - label: "Functionality matches designs (Frontend)"
-        - label: "Documentation updated"
+        - label: "Documentation updated (README, technical docs)"
         - label: "Analytics events implemented (if applicable)"
         - label: "Accessibility requirements met (Frontend)"
+        - label: "Error logging and monitoring configured"
         - label: "Merged to main branch"

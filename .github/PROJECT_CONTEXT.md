@@ -3,7 +3,7 @@
 ## 1. PROJECT OVERVIEW
 *   **Project Name:** Project Draper
 *   **Purpose:** Automate the conversion of media plans and variant maps into specific creative deliverables lists and Monday.com job entries.
-*   **Description:** A web-based internal tool that ingests Excel files (.xlsx) containing "Media Specs" and "Variant Maps." It applies configurable JSON-based business rules to validate data, generate a granular list of required creative assets (Deliverables), and export these as CSVs for Monday.com ingestion. The system replaces a manual, error-prone process.
+*   **Description:** A web-based internal tool that ingests Excel files (.xlsx) containing "Media Specs" and "Variant Maps." It applies configurable JSON-based business rules to validate data, generate deliverables with automated filename generation, and export results to Excel and Monday.com CSV format.
 *   **Repository URL:** *[TODO: Insert GitHub URL]* (Managed by Old St Labs)
 *   **Key Source Documents:**
     *   "Complete Media Plan Deliverables Generation Rules"
@@ -309,10 +309,59 @@
 *   **Validation:** [TODO: JSON schema validation before saving?]
 
 ### Ticket/Issue Numbering Convention
-*   **Format:** `DRAPER-##`
-*   **Example:** `DRAPER-01`, `DRAPER-42`
-*   **Bug Format:** [TODO: BUG-DRAPER-## or same as features?]
-*   **Tech Debt Format:** [TODO: TECH-DRAPER-## or same?]
+
+**Format:** `[PREFIX]-[NUMBER]`
+
+**Components:**
+- **PREFIX**: 2-10 character project code (configurable per project)
+  - Examples: `DR`, `DRAPER`, `PRD`, `AUTH`
+  - Typically 2-3 characters for brevity
+  - Uppercase recommended for consistency
+  - Defined at project inception
+
+- **NUMBER**: Zero-padded sequential number
+  - Format: `01`, `02`, `03`... `99`
+  - For 100+ issues: `100`, `101`, `102`...
+  - Sequential across entire project
+
+**Examples:**
+- `DR-01` - First ticket for "DR" project
+- `DRAPER-42` - 42nd ticket for "DRAPER" project
+- `AUTH-05` - 5th ticket for "AUTH" project
+
+**Issue Title Format:**
+```
+[PREFIX]-[NUMBER] [Feature Name] - [Story Type]
+```
+
+**Examples:**
+- `DR-01 Google SSO Authentication - Backend`
+- `DR-02 View All Campaigns - Frontend`
+- `DR-03 Review Deliverables Table - Full Stack`
+- `DRAPER-15 Upload JSON Rules - Backend`
+
+**Split Stories (Frontend/Backend separated):**
+- Option A: Sequential numbering
+  - `DR-29` Review Deliverables - Backend
+  - `DR-30` Review Deliverables - Frontend
+  
+- Option B: Suffix notation (when explicit FE/BE linking needed)
+  - `DR-29-BE` Review Deliverables - Backend
+  - `DR-29-FE` Review Deliverables - Frontend
+
+**Labels Convention:**
+- Always include: `user-story`, `[epic-name]`, `priority-[level]`, `[story-type]`
+- Examples: 
+  - `["user-story", "authentication", "priority-high", "backend"]`
+  - `["user-story", "deliverables", "priority-medium", "full-stack"]`
+
+**Bug Format:** [TODO: BUG-[PREFIX]-## or same as features?]
+**Tech Debt Format:** [TODO: TECH-[PREFIX]-## or same?]
+
+**Configuration Location:**
+- Ticket prefix is defined in `.github/ISSUE_TEMPLATE/user-story.yml`
+- AI assistants request prefix during session setup
+- Stored in PROJECT_CONTEXT.md for reference
 
 ## 8. RELATED DOCUMENTATION
 *   **Architecture Diagram:** See "Initial Arch Design" - Mermaid Graph TD [TODO: Add link or embed]
@@ -322,6 +371,8 @@
 *   **API Documentation:** [TODO: Swagger/OpenAPI spec? Postman collection?]
 *   **Deployment Guide:** [TODO: Link to deployment documentation?]
 *   **Development Setup:** [TODO: README with local dev setup?]
+*   **Issue Templates:** `.github/ISSUE_TEMPLATE/user-story.yml` - GitHub issue template for user stories
+*   **AI Issue Creator:** `.github/AI_ISSUE_CREATOR_PROMPT.md` - AI assistant prompt for automated issue creation
 
 ---
 
@@ -332,11 +383,20 @@ When creating GitHub issues:
 1. Reference relevant sections (Tech Stack, User Roles, Data Models) in your Copilot prompts
 2. Copy specific patterns/conventions into issue Technical Context sections
 3. Use naming conventions and export formats in acceptance criteria
+4. Use the ticket numbering format: `[PREFIX]-[NUMBER]` (get PREFIX from project lead)
 
 ### For Developers
 1. Fill in `[TODO: ...]` placeholders as implementation details are finalized
 2. Update this file when architecture/patterns change
 3. Use as single source of truth for project standards
+4. Reference ticket prefix when creating manual issues
+
+### For AI Assistants
+1. Read this file before creating any issues
+2. Extract tech stack, data models, patterns, and conventions
+3. Use ticket numbering format specified in section 7
+4. Auto-generate labels based on epic name, priority, and story type
+5. Infer dependencies based on epic relationships
 
 ### Maintenance
 *   **Owner:** [TODO: Who maintains this file?]
