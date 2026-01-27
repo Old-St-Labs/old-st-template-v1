@@ -20,7 +20,7 @@ I want to create a GitHub issue.
 - ✅ Determine if you need single-issue or batch mode
 - ✅ Ask for your repository and ticket prefix
 - ✅ Guide you through the right workflow
-- ✅ Create all issues with one approval
+- ✅ Create all issues automatically
 
 **No need to decide modes or read documentation first!**
 
@@ -77,6 +77,8 @@ Perfect! To get started, I need:
 **Single Mode:** Answer questions → Review preview → Approve → Issue created
 
 **Batch CSV Mode:** Paste CSV → Answer 2-4 questions → Review summary → Approve → All issues created
+
+**Simple and straightforward!**
 
 ---
 
@@ -189,10 +191,17 @@ Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show r
    | # | Ticket | Title                    | Type     | Priority |
    |---|--------|--------------------------|----------|----------|
    | 1 | DR-01  | Upload JSON Rules - BE   | Backend  | Low      |
-   | 2 | DR-02  | Create Monday Jobs - FS  | Full Stack | Medium |
-   | 3 | DR-03  | Error Tracking - FS      | Full Stack | Medium |
+   | 2 | DR-02  | Create Monday Jobs [PARENT] | Parent | Medium |
+   | 3 | DR-02-BE | Create Monday Jobs - BE | Backend (Sub) | Medium |
+   | 4 | DR-02-FE | Create Monday Jobs - FE | Frontend (Sub) | Medium |
+   | 5 | DR-03  | Error Tracking [PARENT]  | Parent   | Medium |
+   | 6 | DR-03-BE | Error Tracking - BE     | Backend (Sub) | Medium |
+   | 7 | DR-03-FE | Error Tracking - FE     | Frontend (Sub) | Medium |
    
-   Total: 3 stories → 7 issues (includes parent + sub-issues)
+   Total: 3 stories → 7 issues (2 parents + 4 sub-issues + 1 single)
+   
+   ⚠️ Note: First issue will trigger MCP approval. 
+   After you approve, all remaining issues will be created automatically.
    ```
 
 **You say:** "Approve" or "Create all"
@@ -200,21 +209,34 @@ Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show r
 **AI creates:** ALL issues automatically with one command ✅
 
 ```
-✅ Creating 3 stories (7 total issues)...
+✅ Creating first issue to enable MCP approval...
+
+✅ DR-01 Upload JSON Rules - Backend created!
+   https://github.com/Old-St-Labs/draper/issues/42
+
+✅ MCP approval set for session. Creating remaining 6 issues...
 
 Successfully created:
 - #42: DR-01 Upload JSON Rules - Backend
-- #43: DR-02 Create Monday Jobs - Full Stack (parent)
+- #43: DR-02 Create Monday Jobs [PARENT]
   ├── #44: DR-02-BE Backend sub-issue
   └── #45: DR-02-FE Frontend sub-issue
-- #46: DR-03 Error Tracking - Full Stack (parent)
+- #46: DR-03 Error Tracking [PARENT]
   ├── #47: DR-03-BE Backend sub-issue
   └── #48: DR-03-FE Frontend sub-issue
 
-Total: 3 stories → 7 issues created
+──────────────────────────────────────────
+✅ BATCH CREATION COMPLETE
+
+Total Stories: 3
+✅ Created: 3 stories → 7 issues (2 parents + 4 sub-issues + 1 single)
+⚠️ Skipped: 0 stories
+
+View all: https://github.com/Old-St-Labs/draper/issues
+──────────────────────────────────────────
 ```
 
-**No more clicking "approve" 100 times!** 🎉
+**Batch creation makes it easy!** 🎉
 
 ---
 
@@ -239,7 +261,8 @@ Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
 **Story Type Auto-Detection:**
 - `Backend > 0, Frontend = 0/blank` → **Backend Only** (1 issue)
 - `Frontend > 0, Backend = 0/blank` → **Frontend Only** (1 issue)
-- `Both > 0` → **Full Stack** (3 issues: parent + 2 sub-issues)
+- `Both > 0` → **[PARENT] + Sub-issues** (3 issues: parent + 2 sub-issues)
+- `Both = 0` → **INCOMPLETE** (flagged for user review or skipped)
 
 **Blank CSV Template:**
 ```csv
@@ -292,10 +315,12 @@ As a user, I want to view all campaigns.
 Approve
 ```
 
-**AI:** *(Automatically creates the GitHub issue and provides the URL)*
+**AI:** *(Creates issue)*
 ```
-✅ GitHub issue #42 created successfully!
-   https://github.com/Old-St-Labs/draper/issues/42
+✅ Issue created successfully!
+
+DR-42: View All Campaigns - Frontend
+https://github.com/Old-St-Labs/draper/issues/42
 ```
 
 ---
@@ -340,16 +365,29 @@ Approve
 
 **AI:** *(Creates all issues)*
 ```
-✅ Creating 3 stories (5 total issues)...
+✅ Creating first issue to enable MCP approval...
+
+✅ DR-01 Google SSO [PARENT] created!
+   You'll see an MCP approval prompt. Click "Allow for this conversation"
+
+✅ MCP approved! Creating remaining 4 issues automatically...
 
 Successfully created:
-- #42: DR-01 Google SSO - Full Stack
-  ├── #43: DR-01-BE Backend sub
-  └── #44: DR-01-FE Frontend sub
+- #42: DR-01 Google SSO [PARENT]
+  ├── #43: DR-01-BE Backend sub-issue
+  └── #44: DR-01-FE Frontend sub-issue
 - #45: DR-02 View Campaigns - Frontend
 - #46: DR-03 Upload JSON Rules - Backend
 
+──────────────────────────────────────────
+✅ BATCH CREATION COMPLETE
+
+Total Stories: 3
+✅ Created: 3 stories → 5 issues (1 parent + 2 sub-issues + 2 singles)
+⚠️ Skipped: 0 stories
+
 View all: https://github.com/Old-St-Labs/draper/issues
+──────────────────────────────────────────
 ```
 
 ---

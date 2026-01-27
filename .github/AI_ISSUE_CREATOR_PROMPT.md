@@ -271,19 +271,17 @@ If user requests changes:
 
 Do NOT create if they ask questions or request changes.
 
-### Step 9: Create the Issue
+#### 8. Create the Issue
 
-When BA approves, create the GitHub issue(s) automatically.
+When BA approves, use `mcp_github_github_issue_write` to create the issue.
 
 **For Full Stack Stories:**
-1. Create parent issue with title: `[PREFIX]-[##] [Feature Name] - Full Stack`
-2. Create Backend sub-issue: `[PREFIX]-[##]-BE [Feature Name] - Backend`
-3. Create Frontend sub-issue: `[PREFIX]-[##]-FE [Feature Name] - Frontend`
-4. Link sub-issues to parent using GitHub's sub-issue feature
-5. Parent issue contains combined context, sub-issues contain layer-specific details
+1. Create parent issue with type "Full Stack"
+2. Create backend sub-issue referencing parent
+3. Create frontend sub-issue referencing parent
 
 **For Frontend Only / Backend Only:**
-1. Create single issue with appropriate story type label
+- Create single issue with appropriate type
 
 ---
 
@@ -399,113 +397,82 @@ Use the same preview format as Mode 1 (see "Issue Template Format" below).
 Does this look correct?
 
 Reply:
-- "Approve" or "Create all" - To create all [X] issues in one batch (RECOMMENDED)
+- "Approve" or "Create all" - To create all [X] issues
 - "Create samples only" - Create just the 1-2 previewed issues for testing
 - "Change [detail]" - To modify global settings (e.g., "Change design reference to [link]")
 - "Skip [epic/story]" - To exclude certain stories (e.g., "Skip Error Handling epic")
-
-⚠️ IMPORTANT: When user says "Approve" or "Create all":
-- Create ALL issues automatically using GitHub MCP tools
-- DO NOT prompt for approval again for each individual issue
-- This is a BATCH operation - one approval creates everything
-- Show progress as issues are created
 ```
 
-#### Step 8: Create All Issues
+#### Step 8: Execute Batch Creation
 
-When approved, create all issues in batch **using GitHub MCP tools**:
+When user approves, use `mcp_github_github_issue_write` to create all issues.
 
-**CRITICAL - SINGLE APPROVAL BATCH MODE:**
-🚨 **The user has already given approval with "Approve" or "Create all"**
-🚨 **DO NOT ask for approval again for individual issues**
-🚨 **Create ALL issues automatically in ONE operation**
+**Creation Order:**
+1. For each story in CSV order:
+   - If Full Stack: Create parent → backend sub → frontend sub
+   - If Backend/Frontend Only: Create single issue
+2. Show progress as each issue is created
 
-**Batch Creation Strategy:**
+**Example Progress Display:**
+```
+✅ Creating issues...
 
-**Phase 1: Prepare Issue Data**
-1. Get last issue number: `mcp_github_github_list_issues` (perPage=1)
-2. Calculate sequential numbers for all issues (PREFIX-01, PREFIX-02, etc.)
-3. Prepare complete issue bodies for all issues using PROJECT_CONTEXT.md
+[1/7] Created: FIN-01 Upload JSON Rules - Backend
+      https://github.com/owner/repo/issues/42
 
-**Phase 2: Execute Batch Creation (CRITICAL)**
+[2/7] Created: FIN-02 Create Monday Jobs - Full Stack (Parent)
+      https://github.com/owner/repo/issues/43
 
-⚠️ **EXECUTE ALL TOOL CALLS IN ONE <function_calls> BLOCK:**
-
-```xml
-<function_calls>
-  <invoke name="mcp_github_github_issue_write">
-    <!-- Issue 1 -->
-  </invoke>
-  <invoke name="mcp_github_github_issue_write">
-    <!-- Issue 2 -->
-  </invoke>
-  <invoke name="mcp_github_github_issue_write">
-    <!-- Issue 3 -->
-  </invoke>
-  <!-- ... all remaining issues ... -->
-</function_calls>
+[3/7] Created: FIN-02-BE Create Monday Jobs - Backend
+      https://github.com/owner/repo/issues/44
+      "ticket": "FIN-02-BE",
+      "title": "FIN-02-BE Create Monday Jobs - Backend",
+      "body": "**Ticket Number:** FIN-02-BE\n**Parent Issue:** FIN-02...",
+      "labels": ["user-story", "monday-jobs", "priority-medium", "backend", "sub-issue"]
+    },
+    {
+      "ticket": "FIN-02-FE",
+      "title": "FIN-02-FE Create Monday Jobs - Frontend",
+      "body": "**Ticket Number:** FIN-02-FE\n**Parent Issue:** FIN-02...",
+      "labels": ["user-story", "monday-jobs", "priority-medium", "frontend", "sub-issue"]
+    }
+  ]
+}
 ```
 
-**Why This Works:**
-- All issues created in ONE function_calls block = ONE approval prompt
-- User already approved the batch = no need to ask again
-- AI executes all creations as a single atomic operation
+**Step 2: Show command to user:**
+```
+✅ Ready to create [X] stories ([Y] total issues)
 
-**For Full Stack Stories (3 issues each):**
-1. First create parent issue, get its URL/number from response
-2. Then in SAME batch, create Backend sub-issue referencing parent in body
-3. Then in SAME batch, create Frontend sub-issue referencing parent in body
-4. Sub-issue linking: Include parent reference in issue body (e.g., "Parent Issue: #42")
+I've generated the issues data file. To create all issues with ONE approval, run this command:
 
-**DO NOT:**
-- ❌ Create issues one-by-one waiting for approval each time
-- ❌ Split into multiple function_calls blocks
-- ❌ Ask for confirmation after user said "Create all"
-- ❌ Show "Do you want me to create this issue?" for each one
+.\.github\scripts\create-github-issues.ps1 -IssuesJsonPath ".github\temp\issues.json" -Repository "owner/repo"
+
+This will create all issues sequentially using GitHub CLI.
+```
+
+**Auto-Detection Logic:**
+- Story with Backend_Hours > 0 AND Frontend_Hours > 0 → 3 entries (parent + 2 subs)
+- Story with only Backend_Hours > 0 → 1 Backend entry
+- Story with only Frontend_Hours > 0 → 1 Frontend entry
+- Story with both = 0 → Determine from notes/context
 
 **DO:**
-- ✅ Prepare all issue data first
-- ✅ Execute all mcp_github_github_issue_write calls in ONE function_calls block
-- ✅ Show progress update after batch completes
-- ✅ Report any failures at the end
+- ✅ Generate ONE issues.json file with ALL issues
+- ✅ Include parent reference in sub-issue bodies
+- ✅ Sequential ticket numbering (FIN-01, FIN-02, FIN-02-BE, FIN-02-FE, FIN-03...)
+- ✅ Complete markdown bodies with all sections
+- ✅ Proper labels array for each issue
 
-**Progress Display:**
-```
-✅ Creating [X] stories ([Y] total issues)...
-
-Successfully created:
-
-**Progress Display:**
-```
-✅ Creating [X] GitHub issues with prefix [PREFIX]...
-
-```
-✅ Creating [X] stories ([Y] total issues)...
-
-Successfully created:
-- Authentication: 3 stories = 7 issues total
-  - #42: DR-01 Google SSO - Full Stack (parent)
-    ├── #43: DR-01-BE Backend sub-issue
-    └── #44: DR-01-FE Frontend sub-issue
-  - #45: DR-02 Email Login - Backend
-  - #46: DR-03 Password Reset - Frontend
-  
-- Campaign Management: 5 stories = 11 issues total
-  - #47 to #51 (with Full Stack stories creating sub-issues)
-  
-- Deliverables: 6 stories = 14 issues total
-  - #52 to #65 (with Full Stack stories creating sub-issues)
-
-Total Stories: [X]
-Total Issues Created: [Y] (includes parent + sub-issues)
-
-View all issues: https://github.com/[owner]/[repo]/issues
-```
+**DO NOT:**
+- ❌ Use mcp_github tools
+- ❌ Create issues directly via API calls
+- ❌ Split into multiple function_calls blocks
 
 **Error Handling:**
-- If any issue fails to create, log the error and continue with others
-- Report failed issues at the end with error details
-- Suggest manual creation for failed issues
+- Script will report which issues succeeded/failed
+- User can retry failed issues by removing successful ones from JSON
+- Script includes rate limiting delays
 
 ---
 
@@ -661,14 +628,23 @@ ELSE IF Frontend_Hours > 0 AND (Backend_Hours = 0 OR blank)
   → Only include "Technical Context — Frontend" section
 
 ELSE IF Backend_Hours > 0 AND Frontend_Hours > 0
-  → Story Type = "Full Stack"
-  → Labels: add "full-stack" (parent issue)
+  → Story Type = "[PARENT]" (Parent + Sub-issues)
+  → Labels: add "parent-issue" (parent issue)
   → Create 3 issues:
-    1. Parent issue: Full Stack with combined context
-    2. Backend sub-issue: Backend-specific with "backend" label
-    3. Frontend sub-issue: Frontend-specific with "frontend" label
-  → Link sub-issues to parent using GitHub sub-issue API
+    1. Parent issue: [PARENT] with combined context
+    2. Backend sub-issue: Backend-specific with "backend", "sub-issue" labels
+    3. Frontend sub-issue: Frontend-specific with "frontend", "sub-issue" labels
+  → Link sub-issues to parent in issue body (reference parent ticket number)
   → Parent tracks overall progress, sub-issues track layer progress
+
+ELSE IF Backend_Hours = 0 AND Frontend_Hours = 0
+  → Story Type = "INCOMPLETE" (Needs clarification)
+  → FLAG for user review
+  → Ask: "This story has 0 hours for both BE and FE. Please either:
+    - Add estimated hours (BE and/or FE)
+    - Provide context in Notes (e.g., 'Admin only', 'Config change')
+    - Or skip this ticket"
+  → Track as SKIPPED if user chooses to skip
 ```
 
 ### 2. Label Auto-Generation
@@ -677,9 +653,12 @@ Always add:
 - "user-story"
 - Epic name (lowercase, hyphenated): "campaign-management", "deliverables"
 - Priority: "priority-high", "priority-medium", "priority-low", "priority-critical"
-- Story type: "frontend", "backend", or "full-stack"
+- Story type: "frontend", "backend", "parent-issue" (for parents), or "sub-issue" (for sub-issues)
 
-Example: ["user-story", "authentication", "priority-high", "backend"]
+Examples:
+- Backend only: ["user-story", "authentication", "priority-high", "backend"]
+- Parent issue: ["user-story", "campaign", "priority-medium", "parent-issue"]
+- Sub-issue: ["user-story", "campaign", "priority-medium", "backend", "sub-issue"]
 ```
 
 ### 3. Dependency Inference
@@ -782,13 +761,13 @@ Format: [PREFIX]-[NUMBER] [Feature Name] - [Story Type]
 - DR-01 Upload JSON Rules - Backend
 - DR-02 View All Campaigns - Frontend
 
-**Full Stack Stories (Parent + Sub-issues):**
-- DR-03 Review Deliverables - Full Stack (parent)
-  - DR-03-BE Review Deliverables - Backend (sub-issue)
-  - DR-03-FE Review Deliverables - Frontend (sub-issue)
-- AUTH-01 Email Password Login - Full Stack (parent)
-  - AUTH-01-BE Email Password Login - Backend (sub-issue)
-  - AUTH-01-FE Email Password Login - Frontend (sub-issue)
+**Parent + Sub-issue Stories:**
+- DR-03 Review Deliverables [PARENT]
+  - DR-03-BE Review Deliverables - Backend
+  - DR-03-FE Review Deliverables - Frontend
+- AUTH-01 Email Password Login [PARENT]
+  - AUTH-01-BE Email Password Login - Backend
+  - AUTH-01-FE Email Password Login - Frontend
 
 Feature Name extraction:
 - Extract main action/feature from user story
@@ -819,25 +798,59 @@ Feature Name extraction:
 
 ### ⚠️ CRITICAL: Batch Creation Behavior
 
-**When user approves a batch of issues:**
+**MCP Approval Workflow (For Scalability):**
+
+**STEP 1: Create Test Issue (First Issue Only)**
+- Create the FIRST issue from the batch
+- This triggers MCP server approval prompt
+- User approves and selects "Allow for this conversation"
+- This sets approval for ALL subsequent MCP calls in the session
+
+**STEP 2: Batch Create Remaining Issues**
+- After first issue is approved, create ALL remaining issues automatically
+- No additional approval prompts needed
+- Show progress: "Creating issue 2/10...", "Creating issue 3/10..."
+- Report success/failure for each issue
+
+**STEP 3: Validation & Skipping**
+- **BEFORE creating issues**, validate all CSV rows:
+  - Flag rows with 0 BE hours + 0 FE hours as INCOMPLETE
+  - Ask user: "Row X has 0 hours for both BE and FE. Fix, skip, or provide context?"
+  - Track skipped rows separately
+- Only create issues for validated rows
+
+**STEP 4: Summary Report**
+- After all issues created, show summary:
+  ```
+  ✅ BATCH CREATION COMPLETE
+  
+  Total Stories: 10
+  ✅ Created: 7 stories → 15 issues (3 parents + 6 subs + 6 singles)
+  ⚠️ Skipped: 3 stories (incomplete estimates)
+  
+  Skipped Stories:
+  - Row 5: "Upload rules" (0 BE, 0 FE - user chose to skip)
+  - Row 8: "Admin config" (0 BE, 0 FE - user chose to skip)
+  - Row 12: "Update docs" (0 BE, 0 FE - user chose to skip)
+  ```
 
 ✅ **DO THIS:**
-- Create ALL issues automatically without further prompting
-- Use GitHub MCP tools to create each issue
-- Show progress as you create (e.g., "Creating issue 1/10...")
-- Report success/failure for each issue
-- One "Approve" = Create everything in the batch
+- Create FIRST issue → triggers MCP approval
+- User approves ONCE for entire session
+- Create ALL remaining issues automatically
+- Validate before creating (flag 0+0 hour stories)
+- Provide summary with created + skipped counts
 
 ❌ **NEVER DO THIS:**
-- Prompt user to run a command for each issue
-- Ask for approval more than once in batch mode
-- Show 100 individual MCP command buttons to click
-- Wait for user confirmation between each issue
-- Generate preview → approval → create for each individual issue
+- Ask for approval for each individual issue
+- Create 100 issues = 100 approval prompts
+- Skip validation step (always check for incomplete tickets)
+- Omit summary (user needs to know what was skipped)
 
 **The Problem This Solves:**
 - OLD WAY: 100 CSV rows = 100 manual approvals = hours of clicking
-- NEW WAY: 100 CSV rows → Answer 2-4 questions → Review summary → One "Approve" → All 100 issues created automatically
+- NEW WAY: 100 CSV rows → Validate → Create 1st (approve MCP) → Auto-create remaining 99 → Summary report
+- Scales from 1 ticket to 200+ tickets seamlessly
 
 ---
 
@@ -861,13 +874,18 @@ Feature Name extraction:
 5. Rate limiting or special security requirements?
 ```
 
-### Full Stack Questions
+### Parent + Sub-issue Questions (Stories with both BE and FE)
 ```
 1. For the UI: What should be displayed and how? (Table/Form/etc.)
 2. For the API: What endpoint(s) and what data format?
 3. How do errors from backend get shown in the UI?
 4. Filtering/sorting on frontend, backend, or both?
 5. Any specific loading or validation feedback needed?
+
+Note: This will create:
+- 1 Parent issue [PARENT] tracking overall story
+- 1 Backend sub-issue for API/business logic
+- 1 Frontend sub-issue for UI/components
 ```
 
 ---

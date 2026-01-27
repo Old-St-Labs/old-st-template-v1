@@ -332,28 +332,35 @@
 **Issue Title Format:**
 ```
 [PREFIX]-[NUMBER] [Feature Name] - [Story Type]
+OR
+[PREFIX]-[NUMBER] [Feature Name] [PARENT]
 ```
 
 **Examples:**
-- `DR-01 Google SSO Authentication - Backend`
-- `DR-02 View All Campaigns - Frontend`
-- `DR-03 Review Deliverables Table - Full Stack`
-- `DRAPER-15 Upload JSON Rules - Backend`
+- Single layer: `DR-01 Google SSO Authentication - Backend`
+- Single layer: `DR-02 View All Campaigns - Frontend`
+- Parent issue: `DR-03 Review Deliverables [PARENT]`
+- Sub-issue: `DR-03-BE Review Deliverables - Backend`
+- Sub-issue: `DR-03-FE Review Deliverables - Frontend`
 
-**Split Stories (Frontend/Backend separated):**
-- Option A: Sequential numbering
-  - `DR-29` Review Deliverables - Backend
-  - `DR-30` Review Deliverables - Frontend
-  
-- Option B: Suffix notation (when explicit FE/BE linking needed)
-  - `DR-29-BE` Review Deliverables - Backend
-  - `DR-29-FE` Review Deliverables - Frontend
+**Parent + Sub-issue Stories:**
+- Stories with both BE and FE hours ALWAYS create:
+  - 1 Parent issue with `[PARENT]` notation
+  - 1 Backend sub-issue with `-BE` suffix
+  - 1 Frontend sub-issue with `-FE` suffix
+- Example:
+  - `DR-05 Campaign Management [PARENT]`
+  - `DR-05-BE Campaign Management - Backend`
+  - `DR-05-FE Campaign Management - Frontend`
 
 **Labels Convention:**
 - Always include: `user-story`, `[epic-name]`, `priority-[level]`, `[story-type]`
+- Parent issues: Add `parent-issue` label
+- Sub-issues: Add `sub-issue` label
 - Examples: 
-  - `["user-story", "authentication", "priority-high", "backend"]`
-  - `["user-story", "deliverables", "priority-medium", "full-stack"]`
+  - Backend only: `["user-story", "authentication", "priority-high", "backend"]`
+  - Parent: `["user-story", "deliverables", "priority-medium", "parent-issue"]`
+  - Sub-issue: `["user-story", "deliverables", "priority-medium", "backend", "sub-issue"]`
 
 **Bug Format:** [TODO: BUG-[PREFIX]-## or same as features?]
 **Tech Debt Format:** [TODO: TECH-[PREFIX]-## or same?]
