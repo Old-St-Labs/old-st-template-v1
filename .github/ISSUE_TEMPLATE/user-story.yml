@@ -38,15 +38,17 @@ body:
       required: true
 
   - type: dropdown
-    id: priority
+    id: version
     attributes:
-      label: "Priority"
+      label: "Version"
+      description: "Milestone/release version for this story"
       options:
-        - "Critical"
-        - "High"
-        - "Medium"
-        - "Low"
-      default: 2
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+      default: 0
     validations:
       required: true
 
@@ -143,168 +145,6 @@ body:
           - Then [empty state message shown]
     validations:
       required: true
-
-  - type: textarea
-    id: technical-context-frontend
-    attributes:
-      label: "Technical Context — Frontend"
-      description: "Fill this section for Frontend or Full Stack stories"
-      placeholder: |
-        **Relevant Files/Components:**
-        - src/pages/...
-        - src/components/...
-        
-        **Routes:**
-        - /path/to/page
-        
-        **State Management:**
-        - Zustand store / Redux slice / Context / Local state
-        - Store structure: { ... }
-        
-        **UI Components to Reuse:**
-        - Button, Modal, Form, Table components from design system
-        
-        **API Endpoints to Call:**
-        - GET /api/v1/endpoint
-        - POST /api/v1/endpoint
-        
-        **UI Library/Framework:**
-        - TanStack Table / AG Grid / Custom table
-        
-        **Responsive Breakpoints:**
-        - Mobile: 320px, Tablet: 768px, Desktop: 1024px+
-    validations:
-      required: false
-
-  - type: textarea
-    id: technical-context-backend
-    attributes:
-      label: "Technical Context — Backend"
-      description: "Fill this section for Backend or Full Stack stories"
-      placeholder: |
-        **Relevant Files/Services:**
-        - lambdas/function-name/
-        - src/services/...
-        - src/controllers/...
-        - src/models/...
-        
-        **API Contract:**
-        ```
-        [METHOD] /api/v1/[endpoint]
-        Headers:
-          Authorization: Bearer <token>
-          Content-Type: application/json
-        
-        Query/Path Parameters:
-          param: type - description
-        
-        Request Body:
-        {
-          "field1": "string",
-          "field2": "number"
-        }
-        
-        Response (200):
-        {
-          "success": true,
-          "data": { ... }
-        }
-        
-        Response (400):
-        {
-          "error": "VALIDATION_ERROR",
-          "message": "Human-readable message",
-          "details": [ ... ]
-        }
-        
-        Response (401):
-        { "error": "UNAUTHORIZED" }
-        
-        Response (404):
-        { "error": "NOT_FOUND" }
-        
-        Response (500):
-        { "error": "SERVER_ERROR" }
-        ```
-        
-        **Database Changes:**
-        - Table/Collection: table_name
-        - PK: ENTITY#id
-        - SK: metadata
-        - New fields/indexes
-        
-        **Business Logic:**
-        - Validation rules
-        - Data transformations
-        - Business rules (e.g., "Skip US market", "Meta 9:16 split")
-        - External service calls
-    validations:
-      required: false
-
-  - type: textarea
-    id: technical-context-integration
-    attributes:
-      label: "Technical Context — Integration"
-      description: "Fill this section for Integration stories or when connecting FE/BE"
-      placeholder: |
-        **Integration Points:**
-        - Frontend component → API endpoint mapping
-        - External service integrations (Google Sheets, Monday.com, etc.)
-        
-        **Contract Definition:**
-        - OpenAPI spec link or inline contract
-        - Request/Response examples with actual data
-        
-        **Authentication/Authorization:**
-        - Auth flow description
-        - Required permissions/roles
-        - Token handling
-        
-        **Error Handling Contract:**
-        - Error code mapping between FE and BE
-        - Retry logic requirements
-        - User-facing error messages
-        
-        **Testing Requirements:**
-        - Contract tests needed
-        - E2E test scenarios
-        - Integration test coverage
-    validations:
-      required: false
-
-  - type: textarea
-    id: nfr
-    attributes:
-      label: "Non-Functional Requirements"
-      description: "Performance, security, accessibility, browser/device support"
-      placeholder: |
-        **Performance:**
-        - Frontend: Page load < 2s, Time to Interactive < 3s
-        - Backend: API response < 500ms, Lambda execution < 60s
-        - Database query < 100ms
-        
-        **Security:**
-        - Input sanitization and validation
-        - Authentication: JWT / OAuth via AWS Cognito
-        - Authorization: Role-based access (Admin vs General User)
-        - File upload validation (.xlsx only, max size)
-        
-        **Accessibility:**
-        - WCAG 2.1 AA compliance (if applicable)
-        - Keyboard navigation
-        - Screen reader support
-        - Color contrast requirements
-        
-        **Browser/Device Support:**
-        - Chrome, Firefox, Safari, Edge (latest 2 versions)
-        - Desktop-first / Mobile responsive
-        
-        **Logging & Monitoring:**
-        - CloudWatch logs for all errors
-        - Activity log for audit trail
-        - Error tracking with row numbers (for data processing)
-    validations:
-      required: false
 
   - type: textarea
     id: dependencies

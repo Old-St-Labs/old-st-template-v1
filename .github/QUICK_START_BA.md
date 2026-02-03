@@ -169,10 +169,10 @@ so that [outcome].
 
 **You provide CSV:**
 ```csv
-Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
-Rules Management,"As a user, I want to upload JSON rules",Low,0,0,Admin only
-Monday Jobs,"As a user, I want to create Monday jobs list",Medium,6-8,4,CSV export
-Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show row numbers
+Epic,User Story,Version,BACKEND,FRONTEND,Notes
+Authentication,"As an Admin, I want to sign-up using email and password",1,3,3,Use Cognito
+Application forms,"As a User, I want to provide my personal details",1,1,2,Name/address/email
+Payment,"As a User, I want to pay membership fee via credit card",1,6,2,Online payment
 ```
 
 **AI does:**
@@ -188,17 +188,19 @@ Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show r
    - Preview preference?
 3. Shows summary table:
    ```
-   | # | Ticket | Title                    | Type     | Priority |
+   | # | Ticket | Title                    | Type     | Version |
    |---|--------|--------------------------|----------|----------|
-   | 1 | DR-01  | Upload JSON Rules - BE   | Backend  | Low      |
-   | 2 | DR-02  | Create Monday Jobs [PARENT] | Parent | Medium |
-   | 3 | DR-02-BE | Create Monday Jobs - BE | Backend (Sub) | Medium |
-   | 4 | DR-02-FE | Create Monday Jobs - FE | Frontend (Sub) | Medium |
-   | 5 | DR-03  | Error Tracking [PARENT]  | Parent   | Medium |
-   | 6 | DR-03-BE | Error Tracking - BE     | Backend (Sub) | Medium |
-   | 7 | DR-03-FE | Error Tracking - FE     | Frontend (Sub) | Medium |
+   | 1 | DAN-01 | Email/Password Signup [PARENT] | Parent | 1      |
+   | 2 | DAN-01-BE | Signup - Backend | Backend (Sub) | 1 |
+   | 3 | DAN-01-FE | Signup - Frontend | Frontend (Sub) | 1 |
+   | 4 | DAN-02 | Provide Personal Details [PARENT]  | Parent   | 1 |
+   | 5 | DAN-02-BE | Personal Details - BE     | Backend (Sub) | 1 |
+   | 6 | DAN-02-FE | Personal Details - FE     | Frontend (Sub) | 1 |
+   | 7 | DAN-03 | Pay Membership Fee [PARENT]  | Parent   | 1 |
+   | 8 | DAN-03-BE | Payment - BE     | Backend (Sub) | 1 |
+   | 9 | DAN-03-FE | Payment - FE     | Frontend (Sub) | 1 |
    
-   Total: 3 stories → 7 issues (2 parents + 4 sub-issues + 1 single)
+   Total: 3 stories → 9 issues (3 parents + 6 sub-issues)
    
    ⚠️ Note: First issue will trigger MCP approval. 
    After you approve, all remaining issues will be created automatically.
@@ -217,19 +219,21 @@ Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show r
 ✅ MCP approval set for session. Creating remaining 6 issues...
 
 Successfully created:
-- #42: DR-01 Upload JSON Rules - Backend
-- #43: DR-02 Create Monday Jobs [PARENT]
-  ├── #44: DR-02-BE Backend sub-issue
-  └── #45: DR-02-FE Frontend sub-issue
-- #46: DR-03 Error Tracking [PARENT]
-  ├── #47: DR-03-BE Backend sub-issue
-  └── #48: DR-03-FE Frontend sub-issue
+- #42: DAN-01 Email/Password Signup [PARENT]
+  ├── #43: DAN-01-BE Backend sub-issue
+  └── #44: DAN-01-FE Frontend sub-issue
+- #45: DAN-02 Provide Personal Details [PARENT]
+  ├── #46: DAN-02-BE Backend sub-issue
+  └── #47: DAN-02-FE Frontend sub-issue
+- #48: DAN-03 Pay Membership Fee [PARENT]
+  ├── #49: DAN-03-BE Backend sub-issue
+  └── #50: DAN-03-FE Frontend sub-issue
 
 ──────────────────────────────────────────
 ✅ BATCH CREATION COMPLETE
 
 Total Stories: 3
-✅ Created: 3 stories → 7 issues (2 parents + 4 sub-issues + 1 single)
+✅ Created: 3 stories → 9 issues (3 parents + 6 sub-issues)
 ⚠️ Skipped: 0 stories
 
 View all: https://github.com/Old-St-Labs/draper/issues
@@ -244,32 +248,32 @@ View all: https://github.com/Old-St-Labs/draper/issues
 
 **Required Columns:**
 ```csv
-Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
+Epic,User Story,Version,BACKEND,FRONTEND,Notes
 ```
 
 **Column Guide:**
 
 | Column | Required? | Examples | Auto-Detection |
 |--------|-----------|----------|----------------|
-| **Epic** | ✅ | Authentication, Campaign, Rules | Groups related issues |
-| **User_Story** | ✅ | "As a user, I want..." | Must be in quotes |
-| **Priority** | ✅ | Critical, High, Medium, Low | Case-insensitive |
-| **Backend_Hours** | Optional | 4, 2-3, 0, blank | `> 0` = Backend work |
-| **Frontend_Hours** | Optional | 12, 4-6, 0, blank | `> 0` = Frontend work |
-| **Notes** | Optional | Use Zustand; Admin only | Tech notes, validations |
+| **Epic** | ✅ | Application forms, Authentication, Payment | Groups related issues |
+| **User Story** | ✅ | "As a user, I want..." | Must be in quotes |
+| **Version** | ✅ | 1, 2, 3 | Milestone/release planning |
+| **BACKEND** | Optional | 3, 6, 0, blank | `> 0` = Backend work (rounded) |
+| **FRONTEND** | Optional | 2, 5, 0, blank | `> 0` = Frontend work (rounded) |
+| **Notes** | Optional | Use Cognito; Admin only | Tech notes, validations |
 
 **Story Type Auto-Detection:**
-- `Backend > 0, Frontend = 0/blank` → **Backend Only** (1 issue)
-- `Frontend > 0, Backend = 0/blank` → **Frontend Only** (1 issue)
+- `BACKEND > 0, FRONTEND = 0/blank` → **Backend Only** (1 issue)
+- `FRONTEND > 0, BACKEND = 0/blank` → **Frontend Only** (1 issue)
 - `Both > 0` → **[PARENT] + Sub-issues** (3 issues: parent + 2 sub-issues)
 - `Both = 0` → **INCOMPLETE** (flagged for user review or skipped)
 
 **Blank CSV Template:**
 ```csv
-Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
-Authentication,"As a user, I want to...",High,4-6,2,
-Campaign,"As a user, I want to...",Medium,0,4,
-Data Processing,"As a user, I want to...",Medium,2-3,1,Validate structure
+Epic,User Story,Version,BACKEND,FRONTEND,Notes
+Authentication,"As a user, I want to...",1,3,2,
+Application forms,"As a user, I want to...",1,0,4,
+Payment,"As a user, I want to...",1,6,2,Validate payment
 ```
 
 ---
@@ -346,10 +350,10 @@ Prefix: DR
 
 Here's my CSV:
 
-Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
-Auth,"As a user, I want Google SSO",High,4-6,2,Use Cognito
-Campaign,"As a user, I want to view campaigns",Medium,0,4,Zustand state
-Rules,"As a user, I want to upload JSON rules",Low,0,0,Admin only
+Epic,User Story,Version,BACKEND,FRONTEND,Notes
+Authentication,"As an Admin, I want to sign-up using email and password",1,3,3,Use Cognito
+Application forms,"As a User, I want to provide personal details",1,1,2,Name/address/email
+Payment,"As a User, I want to pay via credit card",1,6,2,Online payment
 ```
 
 **AI:** *(Analyzes CSV, asks 2-4 global questions)*
@@ -373,17 +377,21 @@ Approve
 ✅ MCP approved! Creating remaining 4 issues automatically...
 
 Successfully created:
-- #42: DR-01 Google SSO [PARENT]
-  ├── #43: DR-01-BE Backend sub-issue
-  └── #44: DR-01-FE Frontend sub-issue
-- #45: DR-02 View Campaigns - Frontend
-- #46: DR-03 Upload JSON Rules - Backend
+- #42: DAN-01 Email/Password Signup [PARENT]
+  ├── #43: DAN-01-BE Backend sub-issue
+  └── #44: DAN-01-FE Frontend sub-issue
+- #45: DAN-02 Provide Personal Details [PARENT]
+  ├── #46: DAN-02-BE Backend sub-issue
+  └── #47: DAN-02-FE Frontend sub-issue
+- #48: DAN-03 Pay via Credit Card [PARENT]
+  ├── #49: DAN-03-BE Backend sub-issue
+  └── #50: DAN-03-FE Frontend sub-issue
 
 ──────────────────────────────────────────
 ✅ BATCH CREATION COMPLETE
 
 Total Stories: 3
-✅ Created: 3 stories → 5 issues (1 parent + 2 sub-issues + 2 singles)
+✅ Created: 3 stories → 9 issues (3 parents + 6 sub-issues)
 ⚠️ Skipped: 0 stories
 
 View all: https://github.com/Old-St-Labs/draper/issues

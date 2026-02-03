@@ -114,34 +114,37 @@ When creating multiple issues at once, use this **6-column CSV format**:
 
 | Column | Required? | Purpose | Example Values |
 |--------|-----------|---------|----------------|
-| **Epic** | Required | Main feature group | Authentication, Campaign Management, Deliverables |
-| **User_Story** | Required | The actual story | "As a user, I want to..." |
-| **Priority** | Required | Importance level | High, Medium, Low, Critical |
-| **Backend_Hours** | Optional | Backend effort estimate | 2-3, 4-6, 0, or leave blank |
-| **Frontend_Hours** | Optional | Frontend effort estimate | 4, 12, 0, or leave blank |
-| **Notes** | Optional | Special instructions/context | "Use Zustand", "Admin only", "Validate structure" |
+| **Epic** | Required | Main feature group | Application forms, Authentication, Payment |
+| **User Story** | Required | The actual story | "As a user, I want to..." |
+| **Version** | Required | Release/milestone version | 1, 2, 3 |
+| **BACKEND** | Optional | Backend effort estimate (rounded hours) | 3, 6, 0, or leave blank |
+| **FRONTEND** | Optional | Frontend effort estimate (rounded hours) | 2, 4, 5, 0, or leave blank |
+| **Notes** | Optional | Special instructions/context | "Use Cognito", "Admin only", "Multiple forms" |
 
 ### CSV Format Rules
 
 **Hour Formats:**
-- Single number: `4` (exact hours)
-- Range: `2-3` or `4-6` (low-high estimate)
+- Whole numbers: `3`, `6`, `12` (rounded hours)
+- Decimals will be automatically rounded: `3.222` → `3`, `1.611` → `2`, `4.833` → `5`
 - Zero or blank: No work needed for this layer
 
 **Story Type Auto-Detection:**
-- `Backend > 0, Frontend = 0 or blank` → **Backend Only** (1 issue)
-- `Backend = 0 or blank, Frontend > 0` → **Frontend Only** (1 issue)
+- `BACKEND > 0, FRONTEND = 0 or blank` → **Backend Only** (1 issue)
+- `BACKEND = 0 or blank, FRONTEND > 0` → **Frontend Only** (1 issue)
 - `Both > 0` → **Full Stack** (3 issues: 1 parent + 2 sub-issues)
 
 **Full Stack Story Behavior:**
-When both Backend_Hours and Frontend_Hours are provided:
+When both BACKEND and FRONTEND hours are provided:
 1. Create **parent issue** with Full Stack label and combined story
 2. Create **Backend sub-issue** linked to parent
 3. Create **Frontend sub-issue** linked to parent
 4. Parent shows overall progress, sub-issues track FE/BE independently
 
-**Priority Values:**
-- Use: `Critical`, `High`, `Medium`, `Low` (case-insensitive)
+**Version Values:**
+- Use: `1`, `2`, `3`, etc. (for milestone/release planning)
+- Version 1 = MVP/First Release
+- Version 2 = Second Release
+- Version 3 = Future enhancements
 
 **Notes Column - Use For:**
 - Tech choices: "Use Zustand", "React Table v8"
@@ -153,11 +156,12 @@ When both Backend_Hours and Frontend_Hours are provided:
 ### Example CSV
 
 ```csv
-Epic,User_Story,Priority,Backend_Hours,Frontend_Hours,Notes
-Authentication,"As a user, I want to use Google SSO with AWS Cognito",High,4-6,2,Email/Password for MVP
-Campaign Management,"As a user, I want to view all campaigns",Medium,0,4,Use Zustand; Manual refresh
-Deliverables,"As a user, I want to review deliverables in a table",High,2-3,12,Table component; Inline editing
-Error Handling,"As a user, I want row-by-row error tracking",Medium,1-2,2,Show Excel row numbers
+Epic,User Story,Version,BACKEND,FRONTEND,Notes
+Authentication,"As a Super Admin, I want to sign-up using email and password",1,3,3,Use Cognito
+Authentication,"As a Super Admin, I want to login with OTP via SMS",2,3,3,Two-factor auth
+Application forms,"As a User, I want to provide my personal details",1,1,2,Name/address/email/phone
+Payment,"As a User, I want to pay membership fee via credit card",1,6,2,Online payment
+Dashboard,"As an Admin, I want to see membership category totals",1,3,2,Real-time counts
 ```
 
 ---
@@ -221,7 +225,7 @@ I need some additional information to create a complete issue:
    
 4. [Filtering/Sorting question if applicable]
    
-5. Priority: Critical / High / Medium / Low?
+5. Version: Which release milestone? (1, 2, 3, 4, 5)
 
 6. Design: Figma link available, or follow existing pattern?
 ```
@@ -309,15 +313,15 @@ Read `PROJECT_CONTEXT.md` to understand project standards.
 ### Step 3: Analyze CSV & Auto-Infer
 
 Automatically determine for each story:
-- **Story Type**: Based on Backend_Hours and Frontend_Hours
+- **Story Type**: Based on BACKEND and FRONTEND hours (rounded to whole numbers)
   - Both > 0 → Full Stack
-  - Only Backend > 0 → Backend Only
-  - Only Frontend > 0 → Frontend Only
+  - Only BACKEND > 0 → Backend Only
+  - Only FRONTEND > 0 → Frontend Only
 - **Epic/Category**: From Epic column
-- **Priority**: From Priority column
-- **Estimated Effort**: From hour columns
+- **Version/Milestone**: From Version column (1, 2, 3, etc.)
+- **Estimated Effort**: From hour columns (automatically rounded)
 - **Special Instructions**: From Notes column
-- **Labels**: Auto-generate from epic name + priority + story type
+- **Labels**: Auto-generate from epic name + version + story type
 - **Dependencies**: Infer logical dependencies from epic order and notes
 - **Ticket Numbers**: Sequential using provided prefix (PREFIX-01, PREFIX-02, etc.)
 
@@ -326,11 +330,11 @@ Automatically determine for each story:
 Ask **ONLY** these questions that apply to ALL stories:
 
 ```
-I've analyzed your CSV with [X] stories. I can auto-generate most details from PROJECT_CONTEXT.md.
+I've analyzed your CSV with [X] stories across [Y] epics and [Z] version(s). I can auto-generate most details from PROJECT_CONTEXT.md.
 
 I just need clarification on a few global settings:
 
-1. **Story Splitting**: For Full Stack stories (stories with both FE + BE hours):
+1. **Story Splitting**: For Full Stack stories (stories with both BACKEND + FRONTEND hours):
    - **DEFAULT**: Create 1 parent issue + 2 sub-issues (Backend, Frontend)
    - Alternative: Create 1 combined issue only (not recommended)
    
@@ -340,9 +344,9 @@ I just need clarification on a few global settings:
    - Figma link: [Provide if available, or leave blank]
    - Or use default: "Follow existing UI patterns"
 
-3. **Dependencies**: Should I auto-add logical dependencies based on epic order?
-   - Yes (e.g., "Deliverables depends on Campaign Management")
-   - No (team will add during sprint planning)
+3. **Version Labels**: Should I add version labels to issues?
+   - Yes (e.g., "v1", "v2", "v3" labels for milestone filtering)
+   - No (track versions via epic only)
 
 4. **Preview**: Would you like to see:
    - Option A: 1-2 sample issue previews before creating all (RECOMMENDED for first-time use)
@@ -368,12 +372,12 @@ Story Types: [X] Frontend, [Y] Backend, [Z] Full Stack
 
 Issues to Create:
 
-| # | Ticket Number | Title | Epic | Type | Priority | Est. Hours | Labels |
-|---|---------------|-------|------|------|----------|------------|--------|
-| 1 | DR-01 | DR-01 Google SSO - Full Stack | Auth | Full Stack | High | 4-6 BE, 2 FE | user-story, authentication, priority-high, full-stack |
-| 2 | DR-02 | DR-02 View Campaigns - Frontend | Campaign | Frontend | Medium | 4 FE | user-story, campaign, priority-medium, frontend |
-| 3 | DR-03 | DR-03 Review Deliverables - Backend | Deliverables | Backend | High | 2-3 BE | user-story, deliverables, priority-high, backend |
-| 4 | DR-04 | DR-04 Review Deliverables - Frontend | Deliverables | Frontend | High | 12 FE | user-story, deliverables, priority-high, frontend |
+| # | Ticket Number | Title | Epic | Type | Version | Est. Hours | Labels |
+|---|---------------|-------|------|------|---------|------------|--------|
+| 1 | DAN-01 | DAN-01 Email/Password Signup [PARENT] | Authentication | Full Stack | 1 | 3 BE, 3 FE | user-story, authentication, v1, full-stack |
+| 2 | DAN-01-BE | DAN-01-BE Email/Password Signup - Backend | Authentication | Backend (Sub) | 1 | 3 BE | user-story, authentication, v1, backend, sub-issue |
+| 3 | DAN-01-FE | DAN-01-FE Email/Password Signup - Frontend | Authentication | Frontend (Sub) | 1 | 3 FE | user-story, authentication, v1, frontend, sub-issue |
+| 4 | DAN-02 | DAN-02 Provide Personal Details - Frontend | Application forms | Frontend | 1 | 2 FE | user-story, application-forms, v1, frontend |
 ...
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -428,13 +432,13 @@ When user approves, use `mcp_github_github_issue_write` to create all issues.
       "ticket": "FIN-02-BE",
       "title": "FIN-02-BE Create Monday Jobs - Backend",
       "body": "**Ticket Number:** FIN-02-BE\n**Parent Issue:** FIN-02...",
-      "labels": ["user-story", "monday-jobs", "priority-medium", "backend", "sub-issue"]
+      "labels": ["user-story", "monday-jobs", "v2", "backend", "sub-issue"]
     },
     {
       "ticket": "FIN-02-FE",
       "title": "FIN-02-FE Create Monday Jobs - Frontend",
       "body": "**Ticket Number:** FIN-02-FE\n**Parent Issue:** FIN-02...",
-      "labels": ["user-story", "monday-jobs", "priority-medium", "frontend", "sub-issue"]
+      "labels": ["user-story", "monday-jobs", "v2", "frontend", "sub-issue"]
     }
   ]
 }
@@ -488,7 +492,7 @@ PREVIEW: GitHub Issue
 Title: [PREFIX]-[NUMBER] [Feature Name] - [Frontend/Backend/Full Stack]
 Ticket Number: [PREFIX]-[NUMBER]
 Story Type: [Frontend Only / Backend Only / Full Stack]
-Priority: [Priority]
+Version: [Version]
 Related Tickets: [If applicable]
 Estimated Effort: [X hours]
 
@@ -544,38 +548,19 @@ Technical Context — Backend
 ─────────────────────────────────────────────────────────────────
 [If Backend or Full Stack - include:]
 
-API Contract:
-[METHOD] /api/v1/[endpoint]
-Headers:
-  Authorization: Bearer <token>
-
-Query/Path Parameters:
-  [parameter]: [type] - [description]
-
-Request Body (if applicable):
-{
-  "field": "type"
-}
-
-Response (200):
-{
-  "success": true,
-  "data": { ... }
-}
-
-Response (400):
-{ "error": "VALIDATION_ERROR", "details": [...] }
-
-Response (401):
-{ "error": "UNAUTHORIZED" }
-
-[Additional error responses]
+API Endpoint:
+- Method: [GET/POST/PUT/DELETE]
+- Path: /api/v1/[endpoint]
+- Authentication: [Required/Optional]
 
 Database Changes:
 - [Table/Collection changes if needed]
+- [New fields, indexes, relationships]
 
 Business Logic:
 - [Key rules and validations]
+- [Data transformations]
+- [External service integrations]
 
 ─────────────────────────────────────────────────────────────────
 Technical Context — Integration
