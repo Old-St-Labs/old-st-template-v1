@@ -8,7 +8,8 @@ This directory contains templates and guides for creating well-structured GitHub
 
 | File | Purpose | When to Use |
 |------|---------|-------------|
-| **[QUICK_START_BA.md](QUICK_START_BA.md)** | Simple 3-step guide for creating issues with AI | **START HERE** - New to the process |
+| **[BA_GIT_VSCODE_SETUP.md](BA_GIT_VSCODE_SETUP.md)** | VS Code & GitHub Copilot installation guide | **START HERE** - First time setup |
+| **[QUICK_START_BA.md](QUICK_START_BA.md)** | Simple guide for creating issues with AI | After setup - Learn the workflow |
 | **[WORKFLOW_VISUAL.md](WORKFLOW_VISUAL.md)** | Visual flowchart of the complete interactive process | See the big picture with timeline |
 | **[ISSUE_CREATION_GUIDE.md](ISSUE_CREATION_GUIDE.md)** | Complete reference guide with examples and prompts | Deep dive into workflows and best practices |
 | **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** | Project-specific context (tech stack, data models, patterns) | Reference when creating issues; AI reads this automatically |
