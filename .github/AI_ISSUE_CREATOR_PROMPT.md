@@ -280,9 +280,12 @@ Do NOT create if they ask questions or request changes.
 When BA approves, use `mcp_github_github_issue_write` to create the issue.
 
 **For Full Stack Stories:**
-1. Create parent issue with type "Full Stack"
-2. Create backend sub-issue referencing parent
-3. Create frontend sub-issue referencing parent
+1. Create parent issue with type "[PARENT]"
+2. Create backend sub-issue with "Parent Issue: #[parent-number]" in body
+3. Create frontend sub-issue with "Parent Issue: #[parent-number]" in body
+4. **CRITICAL**: After all 3 issues are created, update parent issue to add:
+   - "Sub-Issues: #[backend-number], #[frontend-number]" using GitHub's issue reference syntax
+   - This creates clickable links to navigate between parent and sub-issues
 
 **For Frontend Only / Backend Only:**
 - Create single issue with appropriate type
@@ -305,6 +308,128 @@ Ticket Prefix: [PREFIX]
 
 Let me analyze this data and ask a few clarifying questions before generating all issues.
 ```
+
+### Step 1a: Large Batch Detection & Strategy Selection
+
+**If CSV contains 100+ stories (or would create 200+ total issues including parent/sub-issues):**
+
+```
+⚠️ LARGE BATCH DETECTED
+
+Your CSV contains [X] stories, which will create approximately [Y] total issues:
+- [Z] Parent issues
+- [W] Backend sub-issues  
+- [V] Frontend sub-issues
+- [U] Single-layer issues
+
+Creating [Y] issues may encounter:
+- GitHub API rate limits (5,000 requests/hour)
+- MCP timeout constraints
+- Long execution time ([estimated time] minutes)
+
+RECOMMENDED APPROACH - Choose one:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 OPTION 1: Smart Chunking with Auto-Batching (RECOMMENDED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+I'll create issues in **optimized batches of 50 issues** with automatic:
+- Rate limit handling (waits when needed)
+- Progress updates ("Batch 1/5 complete: 50/250 issues created")
+- Error recovery (continues if individual issues fail)
+
+**User interaction:** 
+- ✅ Approve ONCE at start
+- ✅ Monitor progress updates
+- ✅ Review summary at end
+- ⚠️ Estimated time: [X] minutes (runs in this conversation)
+
+**Pros:** Minimal interaction, automatic handling, real-time progress
+**Cons:** Must keep conversation open, cannot pause/resume
+
+Would you like to proceed with Smart Chunking?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 OPTION 2: Filtered Batch Creation (Reduce Scope)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create issues in **logical subsets** to stay under limits:
+
+**Filter by Epic:**
+- Create "[Epic 1]" epic now ([N] issues)
+- Come back later for other epics
+- Example: "Create Authentication epic only"
+
+**Filter by Version:**
+- Create "Version 1" stories now ([N] issues)  
+- Create "Version 2" later
+- Example: "Create Version 1 only"
+
+**Filter by Priority:**
+- Create "High + Critical" priority now ([N] issues)
+- Create "Medium + Low" later
+
+**User interaction:**
+- Tell me which filter to apply (Epic/Version/Priority)
+- I'll create filtered subset (50-100 issues)
+- Repeat for remaining issues in new conversation
+
+**Pros:** Manageable batches, clear organization, can pause between
+**Cons:** Requires multiple sessions, manual filtering
+
+Would you like to filter? If yes, tell me: "Create [Epic/Version/Priority] only"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 OPTION 3: Manual Batch Splitting (Full Control)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Split your CSV manually into smaller files:
+
+**Instructions:**
+1. Split CSV into files of 25-50 rows each
+   - Part 1: Rows 1-50
+   - Part 2: Rows 51-100
+   - Part 3: Rows 101-150
+   - etc.
+
+2. Paste each file separately in new conversations
+   - Ticket numbering continues automatically
+   - I'll track: "Starting from [PREFIX]-51..."
+
+3. Run batch creation for each part
+
+**User interaction:**
+- Manually split CSV in Excel/Sheets
+- Paste each batch (new conversation per batch)
+- Approve each batch separately
+
+**Pros:** Full control, guaranteed to work, can spread across days
+**Cons:** Most manual effort, requires CSV manipulation
+
+Would you like instructions on how to split your CSV?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Your choice?** (Reply: "Option 1", "Option 2: Filter by [Epic/Version]", or "Option 3")
+```
+
+**If user chooses Option 1 (Smart Chunking):**
+- Proceed with automatic batching
+- Create issues in chunks of 50
+- Show progress after each chunk
+- Handle rate limits with exponential backoff
+- Continue to Step 2
+
+**If user chooses Option 2 (Filtered):**
+- Ask: "Filter by Epic, Version, or Priority? Specify which value(s)."
+- Filter CSV rows based on user input
+- Show filtered summary: "Creating [N] issues from [Epic/Version]: [list]"
+- Proceed with filtered subset to Step 2
+
+**If user chooses Option 3 (Manual Split):**
+- Provide detailed CSV splitting instructions
+- Wait for user to paste first batch
+- Track ticket number offset for subsequent batches
 
 ### Step 2: Read Project Context
 
@@ -413,9 +538,32 @@ When user approves, use `mcp_github_github_issue_write` to create all issues.
 
 **Creation Order:**
 1. For each story in CSV order:
-   - If Full Stack: Create parent → backend sub → frontend sub
+   - If Full Stack: Create parent → backend sub → frontend sub → **Update parent with sub-issue links**
    - If Backend/Frontend Only: Create single issue
 2. Show progress as each issue is created
+
+**Full Stack Issue Creation Workflow:**
+```
+Step 1: Create parent issue (e.g., #43)
+  Title: "DR-02 Campaign Management [PARENT]"
+  Body includes: "Sub-Issues: (will be updated after sub-issues are created)"
+  
+Step 2: Create backend sub-issue (e.g., #44)
+  Title: "DR-02-BE Campaign Management - Backend"
+  Body includes: "Parent Issue: #43"
+  
+Step 3: Create frontend sub-issue (e.g., #45)
+  Title: "DR-02-FE Campaign Management - Frontend"
+  Body includes: "Parent Issue: #43"
+  
+Step 4: **UPDATE parent issue #43**
+  Replace "Sub-Issues: (will be updated...)" with:
+  "Sub-Issues: #44 (Backend), #45 (Frontend)"
+  
+This creates bidirectional clickable links:
+  - Parent → Sub-issues: Click #44 or #45 to jump to sub-issues
+  - Sub-issues → Parent: Click #43 to jump back to parent
+```
 
 **Example Progress Display:**
 ```
@@ -489,11 +637,12 @@ Use this format for all issue previews and creation (both modes):
 PREVIEW: GitHub Issue
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Title: [PREFIX]-[NUMBER] [Feature Name] - [Frontend/Backend/Full Stack]
+Title: [PREFIX]-[NUMBER] [Feature Name] - [Frontend/Backend/[PARENT]]
 Ticket Number: [PREFIX]-[NUMBER]
-Story Type: [Frontend Only / Backend Only / Full Stack]
+Story Type: [Frontend Only / Backend Only / [PARENT]]
 Version: [Version]
 Related Tickets: [If applicable]
+Sub-Issues: [For PARENT issues only - list sub-issues with GitHub # links]
 Estimated Effort: [X hours]
 
 ─────────────────────────────────────────────────────────────────
@@ -596,6 +745,65 @@ Does this look correct? Reply:
 
 ---
 
+## PARENT ISSUE EXAMPLE (With Clickable Sub-Issue Links)
+
+**Example of a properly formatted Parent Issue:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PARENT ISSUE: DR-03 Campaign Management [PARENT]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Ticket Number:** DR-03
+**Story Type:** [PARENT]
+**Version:** 1
+**Sub-Issues:** #44 (Backend), #45 (Frontend)
+**Estimated Effort:** 3 hours (Backend), 4 hours (Frontend)
+
+─────────────────────────────────────────────────────────────────
+User Story
+─────────────────────────────────────────────────────────────────
+As a General User,
+I want to view and manage campaigns,
+so that I can organize my marketing deliverables.
+
+─────────────────────────────────────────────────────────────────
+Expected Results
+─────────────────────────────────────────────────────────────────
+- Users can view all campaigns in a table
+- Users can create, edit, and archive campaigns
+- Campaign status updates reflect in real-time
+- [Additional results...]
+
+─────────────────────────────────────────────────────────────────
+Design
+─────────────────────────────────────────────────────────────────
+Follow existing table patterns
+
+─────────────────────────────────────────────────────────────────
+Acceptance Criteria
+─────────────────────────────────────────────────────────────────
+[Gherkin scenarios for both Frontend and Backend...]
+
+─────────────────────────────────────────────────────────────────
+Implementation Details
+─────────────────────────────────────────────────────────────────
+This story is split into:
+- **Backend (#44):** API endpoints, database operations, business logic
+- **Frontend (#45):** UI components, state management, user interactions
+
+Review sub-issues for specific implementation details.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Key Points:**
+- `Sub-Issues: #44 (Backend), #45 (Frontend)` - GitHub automatically makes #44 and #45 clickable
+- This allows developers to click directly from parent to sub-issues
+- Sub-issues reference parent with `Parent Issue: #43` creating bidirectional navigation
+
+---
+
 ## CSV MODE: AUTO-GENERATION RULES
 
 When working in Batch CSV Mode, apply these rules:
@@ -619,17 +827,21 @@ ELSE IF Backend_Hours > 0 AND Frontend_Hours > 0
     1. Parent issue: [PARENT] with combined context
     2. Backend sub-issue: Backend-specific with "backend", "sub-issue" labels
     3. Frontend sub-issue: Frontend-specific with "frontend", "sub-issue" labels
-  → Link sub-issues to parent in issue body (reference parent ticket number)
+  → Link sub-issues to parent using GitHub issue references:
+    - Parent issue includes "Sub-Issues:" section with #issue-number links (e.g., "#123, #124")
+    - Sub-issues include "Parent Issue:" with #issue-number link in their bodies
   → Parent tracks overall progress, sub-issues track layer progress
 
 ELSE IF Backend_Hours = 0 AND Frontend_Hours = 0
   → Story Type = "INCOMPLETE" (Needs clarification)
   → FLAG for user review
-  → Ask: "This story has 0 hours for both BE and FE. Please either:
-    - Add estimated hours (BE and/or FE)
-    - Provide context in Notes (e.g., 'Admin only', 'Config change')
-    - Or skip this ticket"
-  → Track as SKIPPED if user chooses to skip
+  → Ask: "This story has 0 hours for both BE and FE. Please choose:
+    1. Add estimated hours (BE and/or FE)
+    2. Provide context in Notes (e.g., 'Admin only', 'Config change')
+    3. Create as Parent + Sub-issues anyway (0 hours tracked, structure maintained)
+    4. Skip this ticket"
+  → If option 3 chosen: Create [PARENT] + -BE sub + -FE sub with "0 hours" in estimates
+  → Track as SKIPPED if user chooses option 4
 ```
 
 ### 2. Label Auto-Generation
@@ -778,8 +990,9 @@ Feature Name extraction:
 11. **CSV efficiency** - In Batch Mode, reduce questions to bare minimum
 12. **Consistent numbering** - Use PREFIX consistently in ticket numbers, titles, and dependencies
 13. **Full Stack = 3 issues** - ALWAYS create parent + 2 sub-issues for Full Stack stories
-14. **Use sub-issue API** - Link Backend and Frontend sub-issues to parent using GitHub's sub-issue feature
-15. **Strict preview limit** - Batch Mode: Maximum 2 sample previews ONLY, or no preview at all
+14. **Update parent with sub-issue links** - After creating sub-issues, update parent issue to include "Sub-Issues: #[BE-number] (Backend), #[FE-number] (Frontend)" for clickable navigation
+15. **Sub-issues reference parent** - Sub-issue bodies must include "Parent Issue: #[parent-number]" using GitHub's # syntax
+16. **Strict preview limit** - Batch Mode: Maximum 2 sample previews ONLY, or no preview at all
 
 ### ⚠️ CRITICAL: Batch Creation Behavior
 
@@ -800,7 +1013,7 @@ Feature Name extraction:
 **STEP 3: Validation & Skipping**
 - **BEFORE creating issues**, validate all CSV rows:
   - Flag rows with 0 BE hours + 0 FE hours as INCOMPLETE
-  - Ask user: "Row X has 0 hours for both BE and FE. Fix, skip, or provide context?"
+  - Ask user: "Row X has 0 hours for both BE and FE. Choose: 1) Add hours, 2) Add context in Notes, 3) Create as Parent + Sub-issues (no estimates), 4) Skip"
   - Track skipped rows separately
 - Only create issues for validated rows
 
@@ -835,6 +1048,165 @@ Feature Name extraction:
 **The Problem This Solves:**
 - OLD WAY: 100 CSV rows = 100 manual approvals = hours of clicking
 - NEW WAY: 100 CSV rows → Validate → Create 1st (approve MCP) → Auto-create remaining 99 → Summary report
+- Scales from 1 ticket to 200+ tickets seamlessly
+
+---
+
+## 🚀 LARGE BATCH HANDLING (100+ Issues)
+
+### Smart Chunking Implementation (Option 1)
+
+**When to trigger:** CSV would create 100+ total issues
+
+**Automatic Batch Processing:**
+
+```
+STEP 1: Calculate Optimal Batch Size
+- Determine total issues: [X] stories → [Y] total issues
+- Set batch size: min(50, floor(Y / 5)) 
+  - Example: 250 issues → batches of 50
+  - Example: 1,311 issues → batches of 50 across 27 batches
+- Calculate expected time: ~2-3 seconds per issue
+
+STEP 2: Show Batch Plan to User
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SMART CHUNKING PLAN
+
+Total Stories: 437
+Total Issues to Create: 1,311 (437 parents + 437 BE subs + 437 FE subs)
+
+Batch Strategy:
+- Batch Size: 50 issues per chunk
+- Total Batches: 27 batches
+- Estimated Time: ~1 hour 45 minutes
+- Rate Limit Safety: Auto-pause if approaching limits
+
+Progress Updates:
+- Every 50 issues: "Batch X/27 complete (50/1,311 issues)"
+- Every 5 minutes: Time remaining estimate
+- Errors logged but don't stop process
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Approve to start? (Reply "Approve" or "Show me filtered options")
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 3: Execute Chunked Creation
+For each batch of 50 issues:
+  1. Create issues (with rate limit checks)
+  2. Update parent issues with sub-issue links
+  3. Show progress:
+     ```
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     📊 BATCH 1/27 COMPLETE
+     
+     Created: 50/1,311 issues (3.8%)
+     - Stories 1-17 complete (3 issues each: parent + BE + FE)
+     - Story 18 in progress...
+     
+     ⏱️ Elapsed: 2m 15s | Remaining: ~1h 43m
+     ✅ Success: 50 | ❌ Failed: 0
+     
+     Next: Batch 2/27 (issues 51-100)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ```
+  4. Check GitHub API rate limit:
+     - If < 1000 requests remaining → Pause 60 seconds
+     - If < 500 requests remaining → Pause 5 minutes
+  5. Continue to next batch
+
+STEP 4: Handle Errors Gracefully
+- Individual issue failures logged, don't stop batch
+- Show failed issues in final summary
+- Provide retry command for failed issues only
+
+STEP 5: Final Summary
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ LARGE BATCH CREATION COMPLETE
+
+Total Stories: 437
+✅ Created: 1,305 / 1,311 issues (99.5%)
+   - Parents: 435/437
+   - Backend: 435/437
+   - Frontend: 435/437
+
+❌ Failed: 6 issues
+   - DR-142-BE (Rate limit - retry available)
+   - DR-289 [PARENT] (Validation error - needs manual review)
+   - DR-289-FE (Parent failed, skipped)
+   - DR-403-BE (Network timeout - retry available)
+   
+⏱️ Total Time: 1h 52m
+📊 API Calls: 3,933 / 5,000 limit remaining
+
+Retry failed issues? (Reply "Retry failed" or view: github.com/owner/repo/issues)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Rate Limiting Strategy:**
+- Track API calls per batch
+- GitHub limit: 5,000 requests/hour
+- Auto-pause when approaching limit
+- Resume automatically after wait period
+- Show countdown during pauses: "Pausing for rate limit: 58s remaining..."
+
+**Error Recovery:**
+- Continue on individual failures
+- Log failed issue details
+- Offer bulk retry at end
+- Provide specific error messages for manual fixes
+
+**Progress Tracking:**
+- Update every 50 issues
+- Show percentage complete
+- Estimate time remaining
+- Display success/failure counts
+- Show current story being processed
+
+---
+
+### Filtered Batch Creation (Option 2)
+
+**Filter Strategies:**
+
+**1. Filter by Epic:**
+```
+Your CSV has these epics:
+- Authentication (47 stories → 141 issues)
+- Campaign Management (89 stories → 267 issues)
+- Data Processing (143 stories → 429 issues)
+- Deliverables (158 stories → 474 issues)
+
+Create which epic? (e.g., "Create Authentication epic only")
+```
+
+**2. Filter by Version:**
+```
+Your CSV has these versions:
+- Version 1 (178 stories → 534 issues)
+- Version 2 (142 stories → 426 issues)  
+- Version 3 (117 stories → 351 issues)
+
+Create which version? (e.g., "Create Version 1 only")
+```
+
+**3. Filter by Priority:**
+```
+Your CSV has these priorities:
+- Critical (23 stories → 69 issues)
+- High (95 stories → 285 issues)
+- Medium (187 stories → 561 issues)
+- Low (132 stories → 396 issues)
+
+Create which priorities? (e.g., "Create Critical + High only")
+```
+
+**Filter Implementation:**
+- Extract matching rows from CSV
+- Show filtered summary
+- Proceed with standard batch creation
+- Track which rows were processed for next session
+- Suggest next filter: "Remaining: Create Version 2 next?"
 - Scales from 1 ticket to 200+ tickets seamlessly
 
 ---

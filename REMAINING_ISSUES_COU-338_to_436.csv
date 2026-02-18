@@ -1,0 +1,188 @@
+COU Number,Title,Epic,Story Type,BE Hours,FE Hours,Total Issues,Notes,User Story
+COU-338,Instant Cover Request,My Diving and Family,Frontend,0,2,1,,As a Member I want to click a checkbox to request that my membership cover be applied instantly
+COU-339,View Completed Courses [PARENT],My Diving and Family,Parent,2,3,3 (PARENT + BE + FE),Note: COU-339-FE already created (#933),As a Member I want to view my total number of completed courses in my profile
+COU-339-BE,View Completed Courses - Backend,My Diving and Family,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-339
+COU-340-FE,View Refresh Needed - Frontend,My Diving and Family,Frontend Sub,0,1,1 (sub-issue),Note: Parent (#930) and BE (#931) already created,Frontend sub-issue for COU-340
+COU-342,Copy Student Registration Link [PARENT],My Diving Students,Parent,1,2,3 (PARENT + BE + FE),generate link,As a Member I want to copy a Student Registration link that my students can use to register
+COU-342-BE,Copy Student Registration Link - Backend,My Diving Students,Backend Sub,1,0,1 (sub-issue),,Backend sub-issue for COU-342
+COU-342-FE,Copy Student Registration Link - Frontend,My Diving Students,Frontend Sub,0,2,1 (sub-issue),,Frontend sub-issue for COU-342
+COU-343-FE,View Active Students Count - Frontend,My Diving Students,Frontend Sub,0,0,1 (sub-issue),Note: Parent (#932) and BE (#935) already created. Effort TBD,Frontend sub-issue for COU-343
+COU-344,View Total Students Count [PARENT],My Diving Students,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to view the total number of Students
+COU-344-BE,View Total Students Count - Backend,My Diving Students,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-344
+COU-344-FE,View Total Students Count - Frontend,My Diving Students,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-344
+COU-345,View Magazine Collection [PARENT],Resources,Parent,6,5,3 (PARENT + BE + FE),,As a Member I want to view a collection of DAN Magazine issues
+COU-345-BE,View Magazine Collection - Backend,Resources,Backend Sub,6,0,1 (sub-issue),,Backend sub-issue for COU-345
+COU-345-FE,View Magazine Collection - Frontend,Resources,Frontend Sub,0,5,1 (sub-issue),,Frontend sub-issue for COU-345
+COU-346,View Member Documents [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to view a list of my Member Documents and open any document
+COU-346-BE,View Member Documents - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-346
+COU-346-FE,View Member Documents - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-346
+COU-347,View Health Resources [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to view a collection of Health and Diving Resources
+COU-347-BE,View Health Resources - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-347
+COU-347-FE,View Health Resources - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-347
+COU-348,View Diving Reports [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to view a collection of Diving Reports
+COU-348-BE,View Diving Reports - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-348
+COU-348-FE,View Diving Reports - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-348
+COU-349,Search Resources [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to search through available resources
+COU-349-BE,Search Resources - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-349
+COU-349-FE,Search Resources - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-349
+COU-350,Filter Resources by Year [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to select a specific year when viewing resources
+COU-350-BE,Filter Resources by Year - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-350
+COU-350-FE,Filter Resources by Year - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-350
+COU-351,Paginate Resources [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to paginate through the available resources
+COU-351-BE,Paginate Resources - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-351
+COU-351-FE,Paginate Resources - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-351
+COU-352,Resources Per Page [PARENT],Resources,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Member I want to choose how many resources are displayed per page
+COU-352-BE,Resources Per Page - Backend,Resources,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-352
+COU-352-FE,Resources Per Page - Frontend,Resources,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-352
+COU-353,View Emergency Info,Travel,Backend,1,0,1,,As a Member I want to view DAN's Emergency Phone Number and download links to DAN's Guides
+COU-354,Add Travel Notification [PARENT],Travel,Parent,2,4,3 (PARENT + BE + FE),,As a Member I want to add a Travel Notification
+COU-354-BE,Add Travel Notification - Backend,Travel,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-354
+COU-354-FE,Add Travel Notification - Frontend,Travel,Frontend Sub,0,4,1 (sub-issue),,Frontend sub-issue for COU-354
+COU-355,View Available Credits [PARENT],My Temporary Divers,Parent,2,1,3 (PARENT + BE + FE),,As an Industry Partner I want to view my available credits
+COU-355-BE,View Available Credits - Backend,My Temporary Divers,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-355
+COU-355-FE,View Available Credits - Frontend,My Temporary Divers,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-355
+COU-356,View Last Month Credits,My Temporary Divers,Frontend,0,1,1,,As an Industry Partner I want to view the number of credits I used last month
+COU-357,View Total Temp Members,My Temporary Divers,Frontend,0,1,1,,As an Industry Partner I want to view the total number of Temporary Members
+COU-358,View Pending Temp Members,My Temporary Divers,Frontend,0,1,1,,As an Industry Partner I want to view the number of Pending Temporary Members
+COU-359,Purchase Credits [PARENT],My Temporary Divers,Parent,2,2,3 (PARENT + BE + FE),,As an Industry Partner I want to purchase additional credits
+COU-359-BE,Purchase Credits - Backend,My Temporary Divers,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-359
+COU-359-FE,Purchase Credits - Frontend,My Temporary Divers,Frontend Sub,0,2,1 (sub-issue),,Frontend sub-issue for COU-359
+COU-360,Invite Temp Members [PARENT],My Temporary Divers,Parent,3,3,3 (PARENT + BE + FE),,As an Industry Partner I want to invite new Temporary Members
+COU-360-BE,Invite Temp Members - Backend,My Temporary Divers,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-360
+COU-360-FE,Invite Temp Members - Frontend,My Temporary Divers,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-360
+COU-361,View Temp Member Applications [PARENT],My Temporary Divers,Parent,2,3,3 (PARENT + BE + FE),,As an Industry Partner I want to view my Temporary Member applications
+COU-361-BE,View Temp Member Applications - Backend,My Temporary Divers,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-361
+COU-361-FE,View Temp Member Applications - Frontend,My Temporary Divers,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-361
+COU-362,View Available Staff Slots [PARENT],My Staff,Parent,2,1,3 (PARENT + BE + FE),,As a Company Member I want to view the total number of available staff slots
+COU-362-BE,View Available Staff Slots - Backend,My Staff,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-362
+COU-362-FE,View Available Staff Slots - Frontend,My Staff,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-362
+COU-363,View Active Staff Slots [PARENT],My Staff,Parent,0,0,3 (PARENT + BE + FE),Effort TBD,As a Company Member I want to view the total number of active staff slots
+COU-363-BE,View Active Staff Slots - Backend,My Staff,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-363
+COU-363-FE,View Active Staff Slots - Frontend,My Staff,Frontend Sub,0,0,1 (sub-issue),Effort TBD,Frontend sub-issue for COU-363
+COU-364,Purchase Staff Slots [PARENT],My Staff,Parent,13,3,3 (PARENT + BE + FE),,As a Company Member I want to purchase additional staff slots
+COU-364-BE,Purchase Staff Slots - Backend,My Staff,Backend Sub,13,0,1 (sub-issue),,Backend sub-issue for COU-364
+COU-364-FE,Purchase Staff Slots - Frontend,My Staff,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-364
+COU-365,Filter Staff List [PARENT],My Staff,Parent,3,1,3 (PARENT + BE + FE),,As a Company Member I want to filter my staff list
+COU-365-BE,Filter Staff List - Backend,My Staff,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-365
+COU-365-FE,Filter Staff List - Frontend,My Staff,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-365
+COU-366,Add Staff [PARENT],My Staff,Parent,2,3,3 (PARENT + BE + FE),,As a Company Member I want to add new staff to my company's account
+COU-366-BE,Add Staff - Backend,My Staff,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-366
+COU-366-FE,Add Staff - Frontend,My Staff,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-366
+COU-367,View Instructor Type [PARENT],My First Aid Students,Parent,4,1,3 (PARENT + BE + FE),,As a Member I want to view my Instructor Type
+COU-367-BE,View Instructor Type - Backend,My First Aid Students,Backend Sub,4,0,1 (sub-issue),,Backend sub-issue for COU-367
+COU-367-FE,View Instructor Type - Frontend,My First Aid Students,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-367
+COU-368,View Active Students [PARENT],My First Aid Students,Parent,0,1,3 (PARENT + BE + FE),Effort TBD for BE,As a Member I want to view the number of active students under my instruction
+COU-368-BE,View Active Students - Backend,My First Aid Students,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-368
+COU-368-FE,View Active Students - Frontend,My First Aid Students,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-368
+COU-369,View Total Students Trained [PARENT],My First Aid Students,Parent,0,1,3 (PARENT + BE + FE),Effort TBD for BE,As a Member I want to view the total number of students I've trained
+COU-369-BE,View Total Students Trained - Backend,My First Aid Students,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-369
+COU-369-FE,View Total Students Trained - Frontend,My First Aid Students,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-369
+COU-370,View Students Due for Refresher [PARENT],My First Aid Students,Parent,0,1,3 (PARENT + BE + FE),Effort TBD for BE,As a Member I want to view the number of students due for a refresher
+COU-370-BE,View Students Due for Refresher - Backend,My First Aid Students,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-370
+COU-370-FE,View Students Due for Refresher - Frontend,My First Aid Students,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-370
+COU-371,Renew Instructor Status [PARENT],My First Aid Students,Parent,3,3,3 (PARENT + BE + FE),Consider renewal flows,As a Member who is a qualified Instructor I want to renew my Instructor Status
+COU-371-BE,Renew Instructor Status - Backend,My First Aid Students,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-371
+COU-371-FE,Renew Instructor Status - Frontend,My First Aid Students,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-371
+COU-372,Training Pack Credit Limit [PARENT],My First Aid Students,Parent,2,1,3 (PARENT + BE + FE),,As a Member who is a qualified Instructor I want to be limited by the number of Training Packs or course credits I've purchased when adding Students
+COU-372-BE,Training Pack Credit Limit - Backend,My First Aid Students,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-372
+COU-372-FE,Training Pack Credit Limit - Frontend,My First Aid Students,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-372
+COU-373,View Provider Courses [PARENT],Training Packs,Parent,2,1,3 (PARENT + BE + FE),,As a Member who is a qualified Instructor I want to view available Provider Courses
+COU-373-BE,View Provider Courses - Backend,Training Packs,Backend Sub,2,0,1 (sub-issue),,Backend sub-issue for COU-373
+COU-373-FE,View Provider Courses - Frontend,Training Packs,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-373
+COU-374,View Instructor Courses [PARENT],Training Packs,Parent,0,1,3 (PARENT + BE + FE),Effort TBD for BE,As a Member who is a qualified Instructor I want to view available Instructor Courses
+COU-374-BE,View Instructor Courses - Backend,Training Packs,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-374
+COU-374-FE,View Instructor Courses - Frontend,Training Packs,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-374
+COU-375,View Instructor Trainer Courses [PARENT],Training Packs,Parent,0,1,3 (PARENT + BE + FE),Effort TBD for BE,As a Member who is a qualified Instructor Trainer I want to view available Instructor Trainer Courses
+COU-375-BE,View Instructor Trainer Courses - Backend,Training Packs,Backend Sub,0,0,1 (sub-issue),Effort TBD,Backend sub-issue for COU-375
+COU-375-FE,View Instructor Trainer Courses - Frontend,Training Packs,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-375
+COU-376,Purchase Training Pack [PARENT],Training Packs,Parent,4,2,3 (PARENT + BE + FE),Only straight payment,As a Member who is a qualified Instructor I want to purchase a Training Pack
+COU-376-BE,Purchase Training Pack - Backend,Training Packs,Backend Sub,4,0,1 (sub-issue),,Backend sub-issue for COU-376
+COU-376-FE,Purchase Training Pack - Frontend,Training Packs,Frontend Sub,0,2,1 (sub-issue),,Frontend sub-issue for COU-376
+COU-377,Auto-generate Training Pack Codes,Training Packs,Backend,2,0,1,,As an Admin I want the system to automatically generate unique Training Pack codes whenever Training Packs are purchased
+COU-378,Email Training Pack Codes,Training Packs,Backend,1,0,1,,As a Member who is a qualified Instructor I want the system to automatically send the Training Pack codes to my registered email address after purchase
+COU-379,Notify Membership Application Approved,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when my Membership application is approved
+COU-380,Notify Membership Application Rejected,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when my Membership application is rejected
+COU-381,Notify Industry Partner Approved,Member Notifications,Backend,1,0,1,,As a Member I want to receive in-app and email notifications when my Industry Partner application is approved
+COU-382,Notify Industry Partner Rejected,Member Notifications,Backend,1,0,1,,As a Member I want to receive in-app and email notifications when my Industry Partner application is rejected
+COU-383,Notify First Aid Student Approved,Member Notifications,Backend,1,0,1,,As a Member I want to receive in-app and email notifications when my First Aid Student application is approved
+COU-384,Notify First Aid Student Rejected,Member Notifications,Backend,1,0,1,,As a Member I want to receive in-app and email notifications when my First Aid Student application is rejected
+COU-385,Notify Diving Student Approved,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when my Diving Student application is approved
+COU-386,Notify Diving Student Rejected,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when my Diving Student application is rejected
+COU-387,Notify Admin Member Invite,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when an Admin invites me to become a Member
+COU-388,Notify Member Diving Student Invite,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when a Member invites me to be their Diving Student
+COU-389,Notify Industry Partner Temp Member Invite,Member Notifications,Backend,1,0,1,,As an Applicant I want to receive an email notification when an Industry Partner invites me to become a Temporary Member
+COU-390,Notify Membership Renewal Confirmation,Member Notifications,Backend,1,0,1,,As a Member I want to receive an email confirmation when I successfully renew my membership
+COU-391,Notify Membership Renewal Declined,Member Notifications,Backend,1,0,1,,As a Member I want to receive an email when I decline or cancel renewal
+COU-392,Notify Payment Default,Member Notifications,Backend,1,0,1,,As a Member on scheduled payments I want to receive an email if my monthly debit order payment defaults
+COU-393,Notify Profile Changes,Member Notifications,Backend,1,0,1,,As a Member I want to receive an email confirming my profile changes (general or medical)
+COU-394,Notify Upcoming Renewals,Member Notifications,Backend,1,0,1,,As an Annual Member I want in-app and email notifications about upcoming renewals
+COU-395,Notify Outstanding Payments,Member Notifications,Backend,1,0,1,,As an Annual Member I want in-app and email notifications about outstanding payments
+COU-396,Notify New Magazine Available,Member Notifications,Backend,1,0,1,,As an Annual Member I want in-app and email notifications when a new DAN Magazine is available
+COU-397,Notify Family Member Payment Submitted,Member Notifications,Backend,1,0,1,,As an Annual Member I want to receive in-app and email notifications when I successfully pay to add family members for Admin approval
+COU-398,Notify Payment Rejected,Member Notifications,Backend,1,0,1,,As a Member I want to receive an email if a payment is rejected
+COU-399,Notify Temporary Member Payment Received,Member Notifications,Backend,1,0,1,,As a Temporary Member I want to receive an email confirming payment received
+COU-400,Notify Temporary Membership Expired,Member Notifications,Backend,1,0,1,,As a Temporary Member I want to receive a notification when my membership expires
+COU-401,Notify Convert to Annual Membership,Member Notifications,Backend,1,0,1,,As a Temporary Member I want to receive an email encouraging me to convert to an Annual DAN Membership when my coverage ends
+COU-402,Notify Company Renewal Due,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive in-app and email notifications when my renewal is due
+COU-403,Notify Company Renewal Payment Received,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive in-app and email confirmations when a renewal payment is received
+COU-404,Notify Company Renewal Payment Rejected,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive in-app and email notifications if a renewal payment is rejected
+COU-405,Notify Company Staff Slots Payment,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive in-app and email notifications when I successfully pay to add staff slots
+COU-406,Notify Company Staff Cancellation,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive an email when we cancel staff memberships
+COU-407,Notify Company Profile Changes,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive an email confirming any profile changes we make
+COU-408,Notify Company Staff Auto-Cancelled,Member Notifications,Backend,1,0,1,,As a Commercial Company I want to receive an email if staff memberships are automatically cancelled due to reaching their end date
+COU-409,Notify Industry Partner Renewal Reminders,Member Notifications,Backend,2,0,1,,As an Industry Partner I want to receive renewal reminder emails at 60 30 and 5 days before expiration
+COU-410,Notify Industry Partner Status Achievement,Member Notifications,Backend,2,0,1,,As an Industry Partner I want to receive a congratulatory email when I reach Gold or Platinum status
+COU-411,Notify Industry Partner Referral Milestone,Member Notifications,Backend,1,0,1,,As an Industry Partner I want to receive a congratulatory email when I refer 10 Annual DAN Members
+COU-412,Notify Industry Partner Credit Purchase Processing,Member Notifications,Backend,1,0,1,,As an Industry Partner I want to receive in-app and email notifications when my Dive Trip Temporary Membership credit purchase application is being processed
+COU-413,Notify Industry Partner Credit Payment Received,Member Notifications,Backend,1,0,1,,As an Industry Partner I want to receive in-app and email confirmations when payment for my credit purchase is received
+COU-414,Notify Industry Partner Credit Payment Rejected,Member Notifications,Backend,1,0,1,,As an Industry Partner I want to receive in-app and email notifications if a credit purchase payment is rejected or if the application remains inactive after 10 days
+COU-415,Notify Industry Partner Temp Member Application,Member Notifications,Backend,1,0,1,,As an Industry Partner I want to receive in-app and email notifications when a Temporary Member submits an application to use my credits
+COU-416,Notify Provider Refresher Reminders,Member Notifications,Backend,2,0,1,,As a DAN Provider I want to receive email reminders 60 30 and 5 days before my refresher is due plus a final reminder on the day of expiry
+COU-417,Notify Provider Refresher Approval,Member Notifications,Backend,1,0,1,,As a DAN Provider I want to receive an email confirming my refresher approval with my certificate attached
+COU-418,Notify New Instructor Status Confirmation,Member Notifications,Backend,1,0,1,,As a new DAN Instructor I want to receive a congratulatory email with my active training status confirmation and certificate after payment is received
+COU-419,Notify New Instructor Trainer Confirmation,Member Notifications,Backend,1,0,1,,As a new DAN Instructor Trainer I want to receive a congratulatory email with my active training status confirmation and certificate after payment is received
+COU-420,Notify Instructor Payment Rejected,Member Notifications,Backend,1,0,1,,As a DAN Instructor or Instructor Trainer I want to receive email notifications if my activation payment is rejected or not received
+COU-421,Notify Provider Refresher Registration Outcome,Member Notifications,Backend,1,0,1,,As a DAN Instructor or Instructor Trainer I want to receive in-app and email notifications when a DAN Provider Refresher registration is approved or rejected
+COU-422,Notify Training Pack Payment,Member Notifications,Backend,1,0,1,,As a DAN Training Member I want to receive in-app and email notifications when I successfully pay for a Training Pack
+COU-423,Notify Diving Student Application Processing,Member Notifications,Backend,1,0,1,,As a Diving Student I want to receive an email that my application is being processed
+COU-424,Notify Diving Student Coverage Expired,Member Notifications,Backend,2,0,1,,As a Diving Student I want to receive an email when my coverage period expires
+COU-425,Notify Support Ticket Submitted,Member Notifications,Backend,2,0,1,,As a Member I want to receive an email notification when I successfully submit a support ticket
+COU-426,Data Migration,Data Migration,Backend,34,0,1,Via .CSV export,Migration of existing user data
+COU-427,Mobile Responsiveness,Mobile Responsiveness,Frontend,0,6,1,,Mobile Responsiveness
+COU-428,Email Notification Templates,Templates,Frontend,0,18,1,,Email Notification Template Creation
+COU-429,In-app Notification Templates,Templates,Frontend,0,7,1,,In-app Notification Template Creation
+COU-430,Member Card Template [PARENT],Templates,Parent,4,2,3 (PARENT + BE + FE),,Member Card Template Creation
+COU-430-BE,Member Card Template - Backend,Templates,Backend Sub,4,0,1 (sub-issue),,Backend sub-issue for COU-430
+COU-430-FE,Member Card Template - Frontend,Templates,Frontend Sub,0,2,1 (sub-issue),,Frontend sub-issue for COU-430
+COU-431,Student Card Template [PARENT],Templates,Parent,3,1,3 (PARENT + BE + FE),,Student Card Template Creation
+COU-431-BE,Student Card Template - Backend,Templates,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-431
+COU-431-FE,Student Card Template - Frontend,Templates,Frontend Sub,0,1,1 (sub-issue),,Frontend sub-issue for COU-431
+COU-432,Company Certificate Template [PARENT],Templates,Parent,4,3,3 (PARENT + BE + FE),,Company Certificate Template Creation
+COU-432-BE,Company Certificate Template - Backend,Templates,Backend Sub,4,0,1 (sub-issue),,Backend sub-issue for COU-432
+COU-432-FE,Company Certificate Template - Frontend,Templates,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-432
+COU-433,Course Certificate Template [PARENT],Templates,Parent,3,3,3 (PARENT + BE + FE),,Course Certificate Template Creation
+COU-433-BE,Course Certificate Template - Backend,Templates,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-433
+COU-433-FE,Course Certificate Template - Frontend,Templates,Frontend Sub,0,3,1 (sub-issue),,Frontend sub-issue for COU-433
+COU-434,Invoice Template [PARENT],Templates,Parent,3,5,3 (PARENT + BE + FE),,Invoice Template Creation
+COU-434-BE,Invoice Template - Backend,Templates,Backend Sub,3,0,1 (sub-issue),,Backend sub-issue for COU-434
+COU-434-FE,Invoice Template - Frontend,Templates,Frontend Sub,0,5,1 (sub-issue),,Frontend sub-issue for COU-434
+COU-435,Websocket Integration,Websocket Integration,Backend,4,0,1,,Websocket Integration
+COU-436,Netcash Payment Gateway,Netcash Payment Gateway,Backend,34,0,1,,Netcash Payment Gateway
+
+SUMMARY:
+Total COU Numbers: 99 (COU-338 to COU-436)
+Total GitHub Issues: 141
+Breakdown:
+- 8 issues from partial batch (COU-338 to COU-344)
+- 133 issues from COU-345 to COU-436
+
+Story Type Distribution:
+- Frontend Only: 6 issues
+- Backend Only: 50 issues
+- Parent + Sub-issues: 85 issues (28 parents × ~3 issues each + some with 0h BE/FE)
+
+Already Created (verified):
+- COU-339-FE (#933)
+- COU-340 [PARENT] (#930) COU-340-BE (#931)
+- COU-341 [PARENT] (#929) COU-341-BE (#934) COU-341-FE (#928)
+- COU-343 [PARENT] (#932) COU-343-BE (#935)

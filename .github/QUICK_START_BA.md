@@ -244,6 +244,154 @@ View all: https://github.com/Old-St-Labs/draper/issues
 
 ---
 
+## 🚨 Large Batch Handling (100+ Issues)
+
+**What happens when you have 437 stories (creating ~1,311 issues)?**
+
+The AI automatically detects large batches and offers **3 smart options:**
+
+### Option 1: Smart Chunking (Recommended - No PowerShell) ✅
+
+**What it does:**
+- Automatically creates issues in batches of 50
+- Handles rate limits automatically (pauses when needed)
+- Shows progress updates every batch
+- ONE approval at the start, then runs automatically
+- Estimated time: ~2-3 seconds per issue
+
+**Example Progress:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 BATCH 5/27 COMPLETE
+
+Created: 250/1,311 issues (19.1%)
+⏱️ Elapsed: 12m 30s | Remaining: ~53m
+✅ Success: 250 | ❌ Failed: 0
+
+Next: Batch 6/27 (issues 251-300)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Pros:**
+- ✅ Minimal user interaction (approve once, monitor progress)
+- ✅ Automatic rate limit handling
+- ✅ Error recovery (continues if individual issues fail)
+- ✅ Real-time progress updates
+- ✅ No PowerShell scripts needed
+
+**Cons:**
+- ⚠️ Must keep conversation open (~1-2 hours for 437 stories)
+- ⚠️ Cannot pause/resume (but failures are retryable at end)
+
+**When to use:** You can monitor the process for the estimated time
+
+---
+
+### Option 2: Filtered Batches (Reduce Scope) 🎯
+
+**What it does:**
+- AI shows you breakdown by Epic/Version/Priority
+- You choose which subset to create now
+- Repeat for other subsets later (new conversations)
+
+**Example:**
+```
+Your CSV Breakdown:
+
+By Epic:
+- Authentication (47 stories → 141 issues)
+- Campaign Management (89 stories → 267 issues)
+- Data Processing (143 stories → 429 issues)
+- Deliverables (158 stories → 474 issues)
+
+Which would you like to create first?
+(e.g., "Create Authentication epic only")
+```
+
+**Pros:**
+- ✅ Manageable batch sizes (under 300 issues per session)
+- ✅ Logical organization (one epic or version at a time)
+- ✅ Can spread work across days
+- ✅ Easier to review and validate
+
+**Cons:**
+- ⚠️ Requires multiple sessions
+- ⚠️ Need to track which epics/versions are done
+
+**When to use:** You want to create issues incrementally over time
+
+---
+
+### Option 3: Manual CSV Splitting 📦
+
+**What it does:**
+- You manually split your 437-row CSV into smaller files (50 rows each)
+- Paste each file in a new conversation
+- AI automatically continues ticket numbering
+
+**Instructions:**
+1. Open CSV in Excel/Google Sheets
+2. Save these files:
+   - Part 1: Rows 1-50
+   - Part 2: Rows 51-100
+   - Part 3: Rows 101-150
+   - etc. (9 files total)
+3. Create new conversation for each part
+4. Paste CSV, AI says "Starting from DR-51..."
+5. Approve each batch
+
+**Pros:**
+- ✅ Full control over batches
+- ✅ Guaranteed to work (small batches)
+- ✅ Can spread across multiple days
+- ✅ Can prioritize certain rows
+
+**Cons:**
+- ⚠️ Most manual effort (splitting CSV)
+- ⚠️ 9+ conversations needed for 437 stories
+- ⚠️ Must track which parts are done
+
+**When to use:** You need maximum control and flexibility
+
+---
+
+### Comparison Table
+
+| Feature | Smart Chunking | Filtered Batches | Manual Split |
+|---------|---------------|------------------|--------------|
+| **PowerShell** | ❌ No | ❌ No | ❌ No |
+| **User Approvals** | 1 | 1 per filter | 1 per part |
+| **Conversations** | 1 | 2-5 | 9+ |
+| **Time Commitment** | 1-2 hours continuous | 30-60 min per session | 20-30 min per part |
+| **Ideal For** | Can monitor for duration | Incremental over days | Maximum control |
+| **437 Stories** | ~1h 45m (1 session) | ~4-5 sessions | ~9 sessions |
+
+---
+
+### AI Detection & Recommendation
+
+When you paste a large CSV, AI automatically shows:
+
+```
+⚠️ LARGE BATCH DETECTED
+
+Your CSV: 437 stories → 1,311 total issues
+Estimated time: ~1 hour 45 minutes
+
+RECOMMENDED: Option 1 (Smart Chunking)
+- One approval, automatic batching
+- Progress updates every 50 issues
+- You can monitor in this conversation
+
+Alternative: Option 2 (Filter by Epic/Version)
+- Create "Version 1" now (178 stories)
+- Come back for Version 2 later
+
+Your choice? (Reply "Option 1", "Option 2: Filter by Version", or "Option 3")
+```
+
+---
+
 ## CSV Format Reference
 
 **Required Columns:**
@@ -265,8 +413,13 @@ Epic,User Story,Version,BACKEND,FRONTEND,Notes
 **Story Type Auto-Detection:**
 - `BACKEND > 0, FRONTEND = 0/blank` → **Backend Only** (1 issue)
 - `FRONTEND > 0, BACKEND = 0/blank` → **Frontend Only** (1 issue)
-- `Both > 0` → **[PARENT] + Sub-issues** (3 issues: parent + 2 sub-issues)
-- `Both = 0` → **INCOMPLETE** (flagged for user review or skipped)
+- `Both > 0` → **[PARENT] + Sub-issues** (3 issues: parent + 2 sub-issues with clickable links)
+- `Both = 0` → **INCOMPLETE** (flagged - user can add hours, add context, create as Parent + Sub-issues with 0 estimates, or skip)
+
+**Parent + Sub-issue Navigation:**
+- Parent issues include: `Sub-Issues: #44 (Backend), #45 (Frontend)` - clickable links
+- Sub-issues include: `Parent Issue: #43` - clickable link
+- Click issue numbers to navigate between parent and sub-issues
 
 **Blank CSV Template:**
 ```csv

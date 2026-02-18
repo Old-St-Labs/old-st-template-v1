@@ -1,6 +1,6 @@
 # GitHub Issue Creator Workflow Changes
 
-> **Date:** January 27, 2026  
+> **Date:** February 18, 2026 (Last Updated)  
 > **Status:** ✅ Implemented
 
 ---
@@ -82,10 +82,11 @@ DR-05 Campaign Management [PARENT]
 - AI asks user to:
   - Add estimated hours
   - Provide context in Notes
+  - Create as Parent + Sub-issues (maintains structure, tracks 0 hours)
   - OR skip the ticket
 - Skipped tickets tracked in summary report
 
-**Why:** Ensures quality, prevents incomplete issues, provides accountability.
+**Why:** Ensures quality, prevents incomplete issues, provides accountability, while allowing organizational flexibility.
 
 **Example:**
 ```
@@ -94,7 +95,8 @@ DR-05 Campaign Management [PARENT]
 Options:
 1. Add estimated hours (e.g., "0" → "2-3" for BE)
 2. Add context in Notes (e.g., "Admin only config change")
-3. Skip this ticket
+3. Create as Parent + Sub-issues (0 hours tracked, maintains FE/BE structure)
+4. Skip this ticket
 
 Your choice?
 ```
@@ -131,7 +133,41 @@ View all: https://github.com/Old-St-Labs/draper/issues
 
 ---
 
-## 6. ✅ Updated Labels
+## 6. ✅ Clickable Sub-Issue Links
+
+### Before:
+- Parent issues referenced sub-issues by ticket number only (e.g., "DR-03-BE")
+- No clickable navigation between parent and sub-issues
+- Manual search required to find related issues
+
+### After:
+- Parent issues include **clickable GitHub issue links**: `Sub-Issues: #44 (Backend), #45 (Frontend)`
+- Sub-issues reference parent: `Parent Issue: #43`
+- **Bidirectional navigation**: Click issue numbers to jump between parent and sub-issues
+- Parent issue updated automatically after sub-issues are created
+
+**Why:** Faster navigation, better developer experience, easier issue management.
+
+**Creation Flow:**
+```
+1. Create parent issue #43 → "DR-03 Campaign Management [PARENT]"
+2. Create backend sub-issue #44 → "DR-03-BE Campaign Management - Backend"
+   └── Body includes: "Parent Issue: #43" (clickable)
+3. Create frontend sub-issue #45 → "DR-03-FE Campaign Management - Frontend"
+   └── Body includes: "Parent Issue: #43" (clickable)
+4. Update parent issue #43 → Add: "Sub-Issues: #44 (Backend), #45 (Frontend)" (clickable)
+```
+
+**Example Parent Issue:**
+```
+**Ticket Number:** DR-03
+**Sub-Issues:** #44 (Backend), #45 (Frontend)  ← Clickable links
+**Estimated Effort:** 3 hours (Backend), 4 hours (Frontend)
+```
+
+---
+
+## 7. ✅ Updated Labels
 
 ### Before:
 - `full-stack` label for parent issues
@@ -162,7 +198,79 @@ Rules,"As a user, I want to...",Low,0,0,Admin only ← FLAGGED (0+0 hours)
 
 **New Behavior:**
 - Row 3 will be **flagged** because both BE and FE = 0
-- AI will ask user to fix, add context, or skip
+- AI will ask user to: add hours, add context, create as Parent + Sub-issues (0 estimates), or skip
+
+---
+
+## 8. ✅ Large Batch Handling (100+ Issues)
+
+### Before:
+- No guidance for handling 100+ issue batches
+- Risk of timeouts, rate limits with large CSVs
+- PowerShell script as only alternative
+- Manual CSV splitting with no guidance
+
+### After:
+- **Automatic detection** when CSV would create 100+ issues
+- **3 smart options presented** with pros/cons:
+  
+  **Option 1: Smart Chunking (No PowerShell)**
+  - Auto-batches in groups of 50 issues
+  - Handles rate limits automatically (pauses when needed)
+  - Progress updates every batch
+  - One approval, runs ~1-2 hours for large batches
+  - Error recovery and retry for failures
+  
+  **Option 2: Filtered Batches**
+  - Filter by Epic/Version/Priority
+  - Create logical subsets (e.g., "Version 1 only")
+  - Multiple sessions, manageable sizes
+  - Clear breakdown shown to user
+  
+  **Option 3: Manual Split**
+  - Detailed instructions for splitting CSV
+  - Automatic ticket number continuation
+  - Full control over batch sizes
+
+### Why:
+- Handles edge case of 200-1,500+ issue creation
+- Prevents timeouts and rate limit errors
+- **No PowerShell required** for automated approach
+- Clear guidance removes guesswork
+- Maintains single-approval workflow within batches
+
+### Example (437 Stories):
+
+**Detection Message:**
+```
+⚠️ LARGE BATCH DETECTED
+
+Your CSV: 437 stories → 1,311 total issues
+(437 parents + 437 BE subs + 437 FE subs)
+
+Estimated time: ~1 hour 45 minutes
+
+RECOMMENDED: Option 1 (Smart Chunking)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Automatic batching (50 issues per batch = 27 batches)
+- Rate limit handling (auto-pause if needed)
+- Progress updates: "Batch 5/27 complete (250/1,311)"
+- One approval at start
+- ~2-3 seconds per issue
+
+Your choice? (Reply "Option 1", "Option 2: Filter by Epic", or "Option 3")
+```
+
+**Progress During Creation:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 BATCH 8/27 COMPLETE
+
+Created: 400/1,311 issues (30.5%)
+⏱️ Elapsed: 20m 15s | Remaining: ~47m
+✅ Success: 400 | ❌ Failed: 0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ---
 
@@ -175,6 +283,9 @@ Rules,"As a user, I want to...",Low,0,0,Admin only ← FLAGGED (0+0 hours)
 | 100 approvals for 100 issues | 1 approval for 100 issues |
 | Incomplete tickets created | Incomplete tickets flagged |
 | No visibility on skipped items | Clear summary report |
+| Manual navigation between issues | Clickable #issue links for parent ↔ sub-issues |
+| No guidance for 100+ issues | Smart chunking, filtering, or manual split options |
+| PowerShell script required for large batches | Auto-batching with rate limit handling (no script) |
 
 ---
 
